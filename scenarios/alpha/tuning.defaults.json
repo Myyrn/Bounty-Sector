@@ -588,5 +588,41 @@
  "teach.value": {
   "value": 1.0,
   "status": "placeholder"
+ },
+ "civil.revolt": {
+  "value": 0.8,
+  "status": "placeholder"
+ },
+ "civil.minMen": {
+  "value": 10,
+  "status": "placeholder"
+ },
+ "civil.secede.turns": {
+  "value": 5,
+  "status": "placeholder"
+ },
+ "civil.calm.turns": {
+  "value": 4,
+  "status": "placeholder"
+ },
+ "civil.martial.turns": {
+  "value": 8,
+  "status": "placeholder"
+ },
+ "civil.suppress.opinion": {
+  "value": 1.0,
+  "status": "placeholder"
+ },
+ "civil.concession": {
+  "value": 1.0,
+  "status": "placeholder"
+ },
+ "civil.secedeValue": {
+  "value": 0.8,
+  "status": "placeholder"
+ },
+ "civil.independenceHold": {
+  "value": 0.6,
+  "status": "placeholder"
  }
 }

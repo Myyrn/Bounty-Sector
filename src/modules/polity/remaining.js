@@ -21,6 +21,12 @@ const DOMAIN = { Taxation: 'taxLaw', Requisition: 'market', MarketAccess: 'marke
   Retinue: 'retinue', EstateMobility: 'administration', Demotion: 'administration', Levy: 'administration', LocalJurisdiction: 'administration', Council: 'administration' }
 const loss = (before, after) => { const n = v => (typeof v === 'number' ? v : v && typeof v === 'object' ? Object.values(v).reduce((a, b) => a + b, 0) : v ? 1 : 0); return n(after) - n(before) }
 
+/** Set scoped Rights/Duties entries (most specific scope wins at read); value === null removes the entry for that scope. Shared by the reform action and rebel-peace concessions. */
+export function applyLawEntries(ctx, country, entries) {
+  const law = (ctx.state.polity.law[country] ??= { rights: {}, duties: {}, requisitions: [] })
+  for (const e of entries) { const scope = e.scope ?? { kind: 'empire' }, k = JSON.stringify(scope), list = ((law[e.kind] ??= {})[e.id] ??= []).filter(x => JSON.stringify(x.scope) !== k)
+    if (e.value !== null) list.push({ scope, value: e.value, declaredTurn: ctx.state.meta.turn, seq: ctx.state.meta.seq }); law[e.kind][e.id] = list } }
+
 export function registerRemainingActions(reg) {
   // Generic Rights/Duties reform bundle: sets scoped entries (most specific scope wins at read). value === null removes the entry for that scope.
   reg.register({ id: 'reformRightsDuties', module: 'polity', class: 'event', defaultVisibility: 'public', costs: () => [], axisLoads: { conservatism_reformism: 1 },
@@ -31,9 +37,7 @@ export function registerRemainingActions(reg) {
     impact: (ctx, a, key) => { let l = 0; const sc = scopeCtx(ctx, a.actor.country)
       for (const e of a.params.entries) if (covers(e.scope ?? { kind: 'empire' }, key, sc)) { const cur = e.kind === 'rights' ? ctx.derive.polity.right(key, e.id) : ctx.derive.polity.duty(key, e.id, 0); l += e.kind === 'rights' ? -loss(cur, e.value) : loss(cur, e.value) }
       return { cost: l > 0 ? clamp01(0.3 * l) : 0, relief: l < 0 ? clamp01(-0.3 * l) : 0 } },
-    apply: (ctx, a) => { const law = (ctx.state.polity.law[a.actor.country] ??= { rights: {}, duties: {}, requisitions: [] })
-      for (const e of a.params.entries) { const scope = e.scope ?? { kind: 'empire' }, k = JSON.stringify(scope), list = ((law[e.kind] ??= {})[e.id] ??= []).filter(x => JSON.stringify(x.scope) !== k)
-        if (e.value !== null) list.push({ scope, value: e.value, declaredTurn: ctx.state.meta.turn, seq: ctx.state.meta.seq }); law[e.kind][e.id] = list } } })
+    apply: (ctx, a) => applyLawEntries(ctx, a.actor.country, a.params.entries) })
   reg.register({ id: 'setMobilityGap', module: 'polity', class: 'event', defaultVisibility: 'public', gateDomain: () => 'administration', costs: () => [], axisLoads: { homogenizing_pluralist: 1 },
     validate: (ctx, a) => typeof a.params?.gap === 'number' && a.params.from && a.params.to && a.params.from !== a.params.to ? { ok: true } : { ok: false, reasons: ['gap, from, to required'] },
     apply: (ctx, a) => { ((ctx.state.polity.mobilityGap ??= {})[a.actor.country] ??= {})[`${a.params.from}>${a.params.to}`] = a.params.gap } })       // blocks further conversion only; never reverts movers

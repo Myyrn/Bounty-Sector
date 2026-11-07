@@ -29,5 +29,5 @@ export function buildState(pkg, ruleset) {
     nations: { presence: structuredClone(pkg.nations.presence), affinity: Object.fromEntries(Object.entries(pkg.nations.nations ?? {}).map(([id, n]) => [id, { ...(n.poolAffinity ?? {}) }])) },
     economy: { warehouses: structuredClone(w.warehouses ?? {}), tradeInfra: Object.fromEntries(Object.entries(provinces).map(([id, p]) => [id, p.tradeInfrastructureLevel ?? 0])), obligations: [], land: {}, lastOutput: {}, lastRate: {},
                coinage: { supply: Math.max(1, totalWealth), lastVolume: vol0, ratio0: Math.max(1, totalWealth) / vol0 } },
-    war: { units: {}, armies: {}, wars: [], score: [], sieges: {}, occupations: {}, seq: 0 },
+    war: { units: {}, armies: {}, wars: [], score: [], sieges: {}, occupations: {}, blocs: {}, seq: 0 },
     polity: { cells, momentum: {}, rung: {}, log: [], law }, admin: { governments }, countries: pkg.countries.countries, player: pkg.scenario.playerCountry } }

@@ -8,7 +8,7 @@ export function scopeCtx(ctx, country) {
 }
 const gov = (ctx, c) => ctx.state.admin.governments[c]
 export const administrationModule = { id: 'administration', derive: {
-  controlSupply: (ctx, country) => (gov(ctx, country).controlSupply ?? ctx.derive.economics.produceCCO(country).control) + (gov(ctx, country).controlBonus ?? 0),   // controlBonus: coercion gains (Demotion Duty)
+  controlSupply: (ctx, country) => Math.max(0, (gov(ctx, country).controlSupply ?? ctx.derive.economics.produceCCO(country).control) + (gov(ctx, country).controlBonus ?? 0) - (ctx.derive.war?.martialCost?.(country) ?? 0)),   // minus the martial-law Control cost of held cells   // controlBonus: coercion gains (Demotion Duty)
   controlResult: (ctx, country) => resolveAllocation(gov(ctx, country).controlDial ?? { entries: [] }, ctx.derive.administration.controlSupply(country), scopeCtx(ctx, country)),
   controlGrant: (ctx, key) => { const c = ctx.derive.worldmap.regionOwner(parseCellKey(key).region)
     return grantFor(ctx.derive.administration.controlResult(c), key) },

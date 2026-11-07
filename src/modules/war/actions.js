@@ -1,13 +1,14 @@
 // war/actions.js — fieldUnits, orderMove, setTactic, declareWar, proposePeace (+ handlers in module.js)
 import { findPath } from './graph.js'
 import { atWar, armyStrength, logScore } from './step.js'
+import { regionStock, takeRegionStock } from './stock.js'
+import { registerInternalActions } from './internal.js'
 const sum = a => a.reduce((s, x) => s + x, 0)
 const cell = (ctx, k) => ctx.state.polity.cells[k], ownerOfCell = (ctx, k) => ctx.derive.worldmap.regionOwner(cell(ctx, k).region)
-const regionStock = (ctx, region, g) => sum(ctx.derive.worldmap.regionProvinces(region).map(p => ctx.state.economy.warehouses[p]?.stock?.[g] ?? 0))
-function takeRegionStock(ctx, region, g, q) { let need = q; for (const p of ctx.derive.worldmap.regionProvinces(region)) { const s = ctx.state.economy.warehouses[p]?.stock; if (!s || need <= 0) continue; const t = Math.min(need, s[g] ?? 0); s[g] = (s[g] ?? 0) - t; need -= t } }
 const myArmy = (ctx, a) => { const ar = ctx.state.war.armies[a.params.armyId]; return ar && ar.owner === a.actor.country ? ar : null }
 
 export function registerWarActions(reg) {
+  registerInternalActions(reg)
   reg.register({ id: 'fieldUnits', module: 'war', class: 'commitment', gateDomain: () => 'retinue', defaultVisibility: 'public', costs: () => [],
     validate: (ctx, a) => { const c = cell(ctx, a.params.originCell), comp = a.params.composition ?? {}; if (!c || ownerOfCell(ctx, c.key) !== a.actor.country) return { ok: false, reasons: ['origin cell must belong to the Country'] }
       for (const [pool, n] of Object.entries(comp)) { if (ctx.ruleset.pools[pool]?.kind !== 'army') return { ok: false, reasons: [`${pool} is not an army pool`] }

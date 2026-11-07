@@ -28,6 +28,7 @@ export class EngineClient {
     if (name === 'map') return { grid: this.state.world.grid, hexes: this.state.world.hexes, provinces: this.state.world.provinces, regions: this.state.world.regionSnapshot.assignment, countries: this.state.countries, edges: this.state.world.edges }
     if (name === 'armies') return Object.values(this.state.war.armies).map(a => ({ id: a.id, owner: a.owner, position: a.position, destination: a.destination, tactic: a.tactic, men: Math.round(a.units.reduce((s, u) => s + this.state.war.units[u].n, 0)), cohesion: +(a.units.reduce((s, u) => s + this.state.war.units[u].cohesion, 0) / a.units.length).toFixed(2), supply: +(a.units.reduce((s, u) => s + this.state.war.units[u].supply, 0) / a.units.length).toFixed(2) }))
     if (name === 'wars') return structuredClone(this.state.war.wars).map(w => ({ ...w, occupations: Object.keys(this.state.war.occupations).length }))
+    if (name === 'blocs') return structuredClone(this.state.war.blocs ?? {})
     if (name === 'occupations') return structuredClone(this.state.war.occupations)
     if (name === 'government') return structuredClone(this.state.admin.governments[args.country])
     if (name === 'law') return structuredClone(this.state.polity.law[args.country])

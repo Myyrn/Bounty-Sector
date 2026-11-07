@@ -10,6 +10,7 @@ const countryOf = (ctx, k) => ctx.derive.worldmap.regionOwner(parseCellKey(k).re
 export function right(ctx, key, id) {                              // silence = allowed (silentDefault)
   const country = countryOf(ctx, key), entries = ctx.state.polity.law[country]?.rights?.[id] ?? []
   return resolveState(entries, key, scopeCtx(ctx, country)) ?? ctx.ruleset.rights?.[id]?.silentDefault }
+export function duty(ctx, key, id, dflt) { const country = countryOf(ctx, key); return resolveState(ctx.state.polity.law[country]?.duties?.[id] ?? [], key, scopeCtx(ctx, country)) ?? dflt }
 export const marketAccess = (ctx, key) => right(ctx, key, 'MarketAccess') !== false
 export const canLend = (ctx, key) => right(ctx, key, 'Lending') !== false
 export const awareness = (ctx, key) => { const c = cell(ctx, key), tot = sum(Object.values(c.labour)) || 1
@@ -38,4 +39,4 @@ export function questions(ctx) {                                   // recomputed
     for (const [id, n] of Object.entries(ctx.ruleset.needs)) { const g = c.grievance?.[id] ?? 0; if (g > comp) { const gap = g - comp
       out.push({ key: `${k}|${id}`, cell: k, need: id, gap, tier: n.class === 'existential' && gap > ctx.T('tier.existential') ? 'existential' : gap > ctx.T('tier.structural') ? 'structural' : 'routine' }) } } }
   return out }
-export const politySvc = { right, marketAccess, canLend, awareness, prestige, weight, fairnessGap, opinionGov, compliance, questions }
+export const politySvc = { duty, right, marketAccess, canLend, awareness, prestige, weight, fairnessGap, opinionGov, compliance, questions }

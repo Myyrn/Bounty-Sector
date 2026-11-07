@@ -1,30 +1,32 @@
 {
- "vantir": {
-  "name": "Vantirians",
-  "color": "#c0392b",
-  "reactionTemperament": 0.6,
-  "poolAffinity": {
-   "Agriculture": 1.1
+ "nations": {
+  "vantir": {
+   "name": "Vantirians",
+   "color": "#c0392b",
+   "reactionTemperament": 0.6,
+   "poolAffinity": {
+    "Agriculture": 1.1
+   },
+   "prefTraits": {}
   },
-  "prefTraits": {}
- },
- "kerin": {
-  "name": "Kerin",
-  "color": "#2980b9",
-  "reactionTemperament": 0.5,
-  "poolAffinity": {
-   "Cavalry": 1.3
+  "kerin": {
+   "name": "Kerin",
+   "color": "#2980b9",
+   "reactionTemperament": 0.5,
+   "poolAffinity": {
+    "Cavalry": 1.3
+   },
+   "prefTraits": {}
   },
-  "prefTraits": {}
- },
- "dorn": {
-  "name": "Dornish",
-  "color": "#27ae60",
-  "reactionTemperament": 0.8,
-  "poolAffinity": {
-   "Mining": 1.2
-  },
-  "prefTraits": {}
+  "dorn": {
+   "name": "Dornish",
+   "color": "#27ae60",
+   "reactionTemperament": 0.8,
+   "poolAffinity": {
+    "Mining": 1.2
+   },
+   "prefTraits": {}
+  }
  },
  "presence": {
   "p:2,0": {

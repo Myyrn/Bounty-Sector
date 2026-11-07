@@ -26,6 +26,11 @@
    <div class="row">Tax market <input id="taxm" type="number" step="0.01" min="0" max="1" value="0.05" style="width:64px"> wealth <input id="taxw" type="number" step="0.01" min="0" max="1" value="0" style="width:64px"> <button id="qtax">Queue setTaxLaw</button></div>
    <div class="row">Requisition <select id="reqgood"></select> <input id="reqamt" type="number" step="0.05" min="0" max="1" value="0.1" style="width:64px"> <button id="qreq">Queue</button></div>
    <div class="row"><button id="qctl">Control: surplus to all cells</button> <button id="clear">Clear orders</button></div><div id="orders" class="muted">no orders queued</div></div>
+  <div class="card"><h3>War</h3>
+   <div class="row"><button id="qwar">Declare war on the other Country</button> <button id="qpeace">Propose peace: take selected province</button></div>
+   <div class="row"><button id="qfield">Field army at selected province (50% Shock Infantry)</button></div>
+   <div class="row"><select id="armysel"></select> <button id="qmove">Move to selected province</button> <select id="tactic"><option>balanced</option><option>aggressive</option><option>defensive</option></select> <button id="qtactic">Tactic</button></div>
+   <div id="wars" class="muted">no wars</div><table id="armies"></table></div>
   <div class="card"><h3>History</h3><table id="hist"></table></div>
   <div class="card"><h3>Last report</h3><div id="report" class="muted">—</div></div>
  </div>

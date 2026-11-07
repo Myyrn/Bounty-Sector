@@ -18,7 +18,7 @@ test('real Action pipeline: setTaxLaw changes the law, placeRequisition fills Go
   await c.submit({ actor: gov, type: 'placeRequisition', params: { good: 'Grain', amount: 0.2 } })
   await c.submit({ actor: gov, type: 'setTaxLaw', params: { market: 'x' } })
   const { report } = await c.endTurn()
-  assert.equal(report.executed.length, 2); assert.equal(report.rejected.length, 1)
+  assert.equal(report.executed.filter(i => i.startsWith('o')).length, 2); assert.equal(report.rejected.length, 1)   // cells also act (ids start with 'c')
   const law = await c.query('law', { country: 'vantiria' }); assert.equal(law.duties.Taxation.find(e => e.scope.kind === 'empire').value.market, 0.2)
   await c.runTurns(3); const g = await c.query('government', { country: 'vantiria' }); assert.ok(g.inventory.Grain > 0)
 })

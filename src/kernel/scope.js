@@ -8,13 +8,16 @@ import { parseCellKey } from './ids.js'
 /** @typedef {{kind:'group',cells:string[]}} GroupTarget  (allocation-local, not part of the shared syntax) */
 
 /** ctx must provide: country (Id), cellKeys():CellKey[] (cells of ctx.country), cellCountry(CellKey):Id */
+// A converged cell carries a combined Estate label 'a+b' (Internal Politics, Convergence); scopes naming either part cover it.
+export const estateParts = e => e.split('+')
+export const mergedEstateLabel = (a, b) => [...new Set([...estateParts(a), ...estateParts(b)])].sort().join('+')
 export function covers(scope, key, ctx) {
   const c = parseCellKey(key)
   switch (scope.kind) {
-    case 'cell': return c.nation === scope.nation && c.estate === scope.estate && c.region === scope.region
+    case 'cell': return c.nation === scope.nation && estateParts(c.estate).includes(scope.estate) && c.region === scope.region
     case 'nationRegion': return c.nation === scope.nation && c.region === scope.region
-    case 'estateRegion': return c.estate === scope.estate && c.region === scope.region
-    case 'estate': return c.estate === scope.estate
+    case 'estateRegion': return estateParts(c.estate).includes(scope.estate) && c.region === scope.region
+    case 'estate': return estateParts(c.estate).includes(scope.estate)
     case 'nation': return c.nation === scope.nation
     case 'region': return c.region === scope.region
     case 'empire': return ctx.cellCountry(key) === ctx.country

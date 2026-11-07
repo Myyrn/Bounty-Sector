@@ -46,6 +46,12 @@ for (const p of corePools) pools[p] = { kind: armyPools[p] ?? (['Meteomancy/Theu
 pools.Fishing = { kind: 'civil', placeholder: true, envelope: { control: 0, coordination: 0, observation: 0 } }
 pools['Reagent Gathering'] = { kind: 'civil', placeholder: true, envelope: { control: 0, coordination: 0, observation: 0 } }
 
+const combat = { 'Shock Infantry': { meleeAtk: 1.0, meleeDef: 0.9, rangedAtk: 0, speed: 1, tags: ['melee'] }, 'Pike Infantry': { meleeAtk: 0.7, meleeDef: 1.2, rangedAtk: 0, speed: 1, tags: ['reach'] },
+  Skirmishers: { meleeAtk: 0.3, meleeDef: 0.4, rangedAtk: 0.8, speed: 1, tags: ['ranged'] }, Cavalry: { meleeAtk: 1.2, meleeDef: 0.7, rangedAtk: 0, speed: 3, tags: ['mounted'] },
+  Artillery: { meleeAtk: 0.1, meleeDef: 0.2, rangedAtk: 3.0, speed: 1, tags: ['ranged'] }, 'Siege Corps': { meleeAtk: 0.2, meleeDef: 0.3, rangedAtk: 0, speed: 1, tags: ['siege'], siege: 2 } }
+for (const [k, v] of Object.entries(combat)) pools[k].combat = { ...v, upkeep: { Bread: 0.05, Garments: 0.005 } }
+const war = { interaction: { mounted: { reach: 0.4, ranged: 1.5, melee: 1, mounted: 1, siege: 1.2 }, melee: { melee: 1, reach: 0.8, mounted: 1, ranged: 1.2, siege: 1.2 }, reach: { melee: 1, reach: 1, mounted: 1.5, ranged: 1, siege: 1 },
+  ranged: { melee: 1, reach: 1, mounted: 1, ranged: 1, siege: 1 }, siege: { melee: 1, reach: 1, mounted: 1, ranged: 1, siege: 1 } }, harassVsMelee: 0.4 }
 const needs = {
   subsistence: { class: 'existential', kind: 'material', tier: 'subsistence', accum: 0.5, decay: 0.05 }, comfort: { class: 'secondary', kind: 'material', tier: 'comfort', accum: 0.1, decay: 0.2 },
   luxury: { class: 'secondary', kind: 'material', tier: 'luxury', accum: 0.05, decay: 0.3 },
@@ -69,6 +75,7 @@ const axes = {}; for (const a of ['CultureLanguageSovereignty', 'MilitaryCap', '
 for (const a of ['Succession', 'CommonRuler']) axes[a] = { symmetricAllowed: true, postAlpha: true }
 
 const ruleset = { version: 1, status: 'placeholder numbers (numbers pass pending)', terrain, goods, pools, needs, consumption, rights, duties, axes,
+  war,
   cb: { tiers: ['Grievance', 'Rights', 'Sovereignty', 'Existential'] }, rituals: {},
   worldgen: { landFraction: 0.45, waterSourcePrecedence: ['river_adjacent', 'coastal'] },
   tuning }

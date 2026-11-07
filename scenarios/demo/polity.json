@@ -2,17 +2,69 @@
  "estates": {
   "peasants": {
    "label": "Peasantry",
-   "populationShare": 0.92
+   "populationShare": 0.92,
+   "prefBaseline": {
+    "extraction_investment": 0.3,
+    "conservatism_reformism": -0.2
+   },
+   "wealthPerCap": 0.5,
+   "labourShare": {
+    "Agriculture": 0.4,
+    "Mining": 0.04,
+    "Woodcraft": 0.04,
+    "Fishing": 0.01,
+    "Crafting/Industry": 0.2,
+    "Trade/Commerce": 0.02,
+    "Medicine": 0.01,
+    "Builders": 0.01,
+    "Teaching": 0.005,
+    "Culture": 0.005,
+    "Shock Infantry": 0.02,
+    "Pike Infantry": 0.01,
+    "Skirmishers": 0.01
+   }
   },
   "nobility": {
    "label": "Nobility",
-   "populationShare": 0.08
+   "populationShare": 0.08,
+   "prefBaseline": {
+    "extraction_investment": -0.5,
+    "conservatism_reformism": -0.6
+   },
+   "wealthPerCap": 6,
+   "labourShare": {
+    "Bureaucrats": 0.25,
+    "Cavalry": 0.15,
+    "Diplomacy": 0.05,
+    "Culture": 0.05,
+    "Teaching": 0.05
+   }
   }
  },
  "lawTemplates": {
   "default": {
    "rights": {
     "Council": [
+     {
+      "scope": {
+       "kind": "estate",
+       "estate": "nobility"
+      },
+      "value": true,
+      "declaredTurn": 0
+     }
+    ],
+    "Veto.taxLaw": [
+     {
+      "scope": {
+       "kind": "estate",
+       "estate": "nobility"
+      },
+      "value": true,
+      "declaredTurn": 0
+     }
+    ],
+    "Veto.market": [
      {
       "scope": {
        "kind": "estate",
@@ -62,7 +114,10 @@
     "Medicine": 9,
     "Builders": 9,
     "Teaching": 5,
-    "Culture": 5
+    "Culture": 5,
+    "Shock Infantry": 19,
+    "Pike Infantry": 9,
+    "Skirmishers": 9
    }
   },
   "kerin|nobility|r1": {
@@ -89,7 +144,10 @@
     "Medicine": 2,
     "Builders": 2,
     "Teaching": 1,
-    "Culture": 1
+    "Culture": 1,
+    "Shock Infantry": 5,
+    "Pike Infantry": 2,
+    "Skirmishers": 2
    }
   },
   "dorn|nobility|r1": {
@@ -116,7 +174,10 @@
     "Medicine": 24,
     "Builders": 24,
     "Teaching": 12,
-    "Culture": 12
+    "Culture": 12,
+    "Shock Infantry": 47,
+    "Pike Infantry": 24,
+    "Skirmishers": 24
    }
   },
   "kerin|nobility|r2": {
@@ -143,7 +204,10 @@
     "Medicine": 6,
     "Builders": 6,
     "Teaching": 3,
-    "Culture": 3
+    "Culture": 3,
+    "Shock Infantry": 12,
+    "Pike Infantry": 6,
+    "Skirmishers": 6
    }
   },
   "dorn|nobility|r2": {
@@ -170,7 +234,10 @@
     "Medicine": 18,
     "Builders": 18,
     "Teaching": 9,
-    "Culture": 9
+    "Culture": 9,
+    "Shock Infantry": 35,
+    "Pike Infantry": 18,
+    "Skirmishers": 18
    }
   },
   "kerin|nobility|r3": {
@@ -197,7 +264,10 @@
     "Medicine": 4,
     "Builders": 4,
     "Teaching": 2,
-    "Culture": 2
+    "Culture": 2,
+    "Shock Infantry": 9,
+    "Pike Infantry": 4,
+    "Skirmishers": 4
    }
   },
   "dorn|nobility|r3": {
@@ -224,7 +294,10 @@
     "Medicine": 21,
     "Builders": 21,
     "Teaching": 10,
-    "Culture": 10
+    "Culture": 10,
+    "Shock Infantry": 41,
+    "Pike Infantry": 21,
+    "Skirmishers": 21
    }
   },
   "kerin|nobility|r4": {
@@ -251,7 +324,10 @@
     "Medicine": 5,
     "Builders": 5,
     "Teaching": 3,
-    "Culture": 3
+    "Culture": 3,
+    "Shock Infantry": 10,
+    "Pike Infantry": 5,
+    "Skirmishers": 5
    }
   },
   "dorn|nobility|r4": {
@@ -278,7 +354,10 @@
     "Medicine": 24,
     "Builders": 24,
     "Teaching": 12,
-    "Culture": 12
+    "Culture": 12,
+    "Shock Infantry": 47,
+    "Pike Infantry": 24,
+    "Skirmishers": 24
    }
   },
   "kerin|nobility|r5": {
@@ -305,7 +384,10 @@
     "Medicine": 6,
     "Builders": 6,
     "Teaching": 3,
-    "Culture": 3
+    "Culture": 3,
+    "Shock Infantry": 12,
+    "Pike Infantry": 6,
+    "Skirmishers": 6
    }
   },
   "dorn|nobility|r5": {
@@ -332,7 +414,10 @@
     "Medicine": 11,
     "Builders": 11,
     "Teaching": 5,
-    "Culture": 5
+    "Culture": 5,
+    "Shock Infantry": 21,
+    "Pike Infantry": 11,
+    "Skirmishers": 11
    }
   },
   "kerin|nobility|r6": {
@@ -359,7 +444,10 @@
     "Medicine": 3,
     "Builders": 3,
     "Teaching": 1,
-    "Culture": 1
+    "Culture": 1,
+    "Shock Infantry": 5,
+    "Pike Infantry": 3,
+    "Skirmishers": 3
    }
   },
   "dorn|nobility|r6": {
@@ -386,7 +474,10 @@
     "Medicine": 18,
     "Builders": 18,
     "Teaching": 9,
-    "Culture": 9
+    "Culture": 9,
+    "Shock Infantry": 35,
+    "Pike Infantry": 18,
+    "Skirmishers": 18
    }
   },
   "kerin|nobility|r7": {
@@ -413,7 +504,10 @@
     "Medicine": 4,
     "Builders": 4,
     "Teaching": 2,
-    "Culture": 2
+    "Culture": 2,
+    "Shock Infantry": 9,
+    "Pike Infantry": 4,
+    "Skirmishers": 4
    }
   },
   "dorn|nobility|r7": {
@@ -440,7 +534,10 @@
     "Medicine": 27,
     "Builders": 27,
     "Teaching": 13,
-    "Culture": 13
+    "Culture": 13,
+    "Shock Infantry": 53,
+    "Pike Infantry": 27,
+    "Skirmishers": 27
    }
   },
   "kerin|nobility|r8": {
@@ -467,7 +564,10 @@
     "Medicine": 7,
     "Builders": 7,
     "Teaching": 3,
-    "Culture": 3
+    "Culture": 3,
+    "Shock Infantry": 13,
+    "Pike Infantry": 7,
+    "Skirmishers": 7
    }
   },
   "dorn|nobility|r8": {
@@ -494,7 +594,10 @@
     "Medicine": 15,
     "Builders": 15,
     "Teaching": 7,
-    "Culture": 7
+    "Culture": 7,
+    "Shock Infantry": 29,
+    "Pike Infantry": 15,
+    "Skirmishers": 15
    }
   },
   "kerin|nobility|r9": {
@@ -521,7 +624,10 @@
     "Medicine": 4,
     "Builders": 4,
     "Teaching": 2,
-    "Culture": 2
+    "Culture": 2,
+    "Shock Infantry": 7,
+    "Pike Infantry": 4,
+    "Skirmishers": 4
    }
   },
   "dorn|nobility|r9": {
@@ -548,7 +654,10 @@
     "Medicine": 9,
     "Builders": 9,
     "Teaching": 4,
-    "Culture": 4
+    "Culture": 4,
+    "Shock Infantry": 17,
+    "Pike Infantry": 9,
+    "Skirmishers": 9
    }
   },
   "vantir|nobility|r10": {
@@ -575,7 +684,10 @@
     "Medicine": 2,
     "Builders": 2,
     "Teaching": 1,
-    "Culture": 1
+    "Culture": 1,
+    "Shock Infantry": 4,
+    "Pike Infantry": 2,
+    "Skirmishers": 2
    }
   },
   "dorn|nobility|r10": {
@@ -602,7 +714,10 @@
     "Medicine": 32,
     "Builders": 32,
     "Teaching": 16,
-    "Culture": 16
+    "Culture": 16,
+    "Shock Infantry": 65,
+    "Pike Infantry": 32,
+    "Skirmishers": 32
    }
   },
   "vantir|nobility|r11": {
@@ -629,7 +744,10 @@
     "Medicine": 8,
     "Builders": 8,
     "Teaching": 4,
-    "Culture": 4
+    "Culture": 4,
+    "Shock Infantry": 16,
+    "Pike Infantry": 8,
+    "Skirmishers": 8
    }
   },
   "dorn|nobility|r11": {
@@ -656,7 +774,10 @@
     "Medicine": 13,
     "Builders": 13,
     "Teaching": 7,
-    "Culture": 7
+    "Culture": 7,
+    "Shock Infantry": 27,
+    "Pike Infantry": 13,
+    "Skirmishers": 13
    }
   },
   "vantir|nobility|r12": {
@@ -683,7 +804,10 @@
     "Medicine": 3,
     "Builders": 3,
     "Teaching": 2,
-    "Culture": 2
+    "Culture": 2,
+    "Shock Infantry": 7,
+    "Pike Infantry": 3,
+    "Skirmishers": 3
    }
   },
   "dorn|nobility|r12": {
@@ -710,7 +834,10 @@
     "Medicine": 29,
     "Builders": 29,
     "Teaching": 15,
-    "Culture": 15
+    "Culture": 15,
+    "Shock Infantry": 59,
+    "Pike Infantry": 29,
+    "Skirmishers": 29
    }
   },
   "vantir|nobility|r13": {
@@ -737,7 +864,10 @@
     "Medicine": 7,
     "Builders": 7,
     "Teaching": 4,
-    "Culture": 4
+    "Culture": 4,
+    "Shock Infantry": 15,
+    "Pike Infantry": 7,
+    "Skirmishers": 7
    }
   },
   "dorn|nobility|r13": {
@@ -764,7 +894,10 @@
     "Medicine": 12,
     "Builders": 12,
     "Teaching": 6,
-    "Culture": 6
+    "Culture": 6,
+    "Shock Infantry": 24,
+    "Pike Infantry": 12,
+    "Skirmishers": 12
    }
   },
   "vantir|nobility|r14": {
@@ -791,7 +924,10 @@
     "Medicine": 3,
     "Builders": 3,
     "Teaching": 1,
-    "Culture": 1
+    "Culture": 1,
+    "Shock Infantry": 6,
+    "Pike Infantry": 3,
+    "Skirmishers": 3
    }
   },
   "dorn|nobility|r14": {
@@ -818,7 +954,10 @@
     "Medicine": 15,
     "Builders": 15,
     "Teaching": 7,
-    "Culture": 7
+    "Culture": 7,
+    "Shock Infantry": 29,
+    "Pike Infantry": 15,
+    "Skirmishers": 15
    }
   },
   "vantir|nobility|r15": {
@@ -845,7 +984,10 @@
     "Medicine": 4,
     "Builders": 4,
     "Teaching": 2,
-    "Culture": 2
+    "Culture": 2,
+    "Shock Infantry": 7,
+    "Pike Infantry": 4,
+    "Skirmishers": 4
    }
   },
   "dorn|nobility|r15": {
@@ -872,7 +1014,10 @@
     "Medicine": 9,
     "Builders": 9,
     "Teaching": 4,
-    "Culture": 4
+    "Culture": 4,
+    "Shock Infantry": 18,
+    "Pike Infantry": 9,
+    "Skirmishers": 9
    }
   },
   "vantir|nobility|r16": {
@@ -899,7 +1044,10 @@
     "Medicine": 2,
     "Builders": 2,
     "Teaching": 1,
-    "Culture": 1
+    "Culture": 1,
+    "Shock Infantry": 4,
+    "Pike Infantry": 2,
+    "Skirmishers": 2
    }
   },
   "dorn|nobility|r16": {
@@ -926,7 +1074,10 @@
     "Medicine": 24,
     "Builders": 24,
     "Teaching": 12,
-    "Culture": 12
+    "Culture": 12,
+    "Shock Infantry": 47,
+    "Pike Infantry": 24,
+    "Skirmishers": 24
    }
   },
   "vantir|nobility|r17": {
@@ -953,7 +1104,10 @@
     "Medicine": 6,
     "Builders": 6,
     "Teaching": 3,
-    "Culture": 3
+    "Culture": 3,
+    "Shock Infantry": 12,
+    "Pike Infantry": 6,
+    "Skirmishers": 6
    }
   },
   "dorn|nobility|r17": {

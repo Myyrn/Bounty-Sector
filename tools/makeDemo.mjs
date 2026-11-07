@@ -21,29 +21,31 @@ for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
 const edges = []
 for (let y = 1; y < H - 1; y++) if (provinces[provId(9, y)] && provinces[provId(9, y + 1)]) edges.push({ a: provId(9, y), b: provId(9, y + 1), type: 'river', fortress: false, bridge: false })
 edges.push({ a: provId(6, 1), b: provId(7, 1), type: 'mountain_pass', fortress: false, bridge: false })
-const world = { grid: { w: W, h: H, orientation: 'pointy-top-odd-r' }, hexes, provinces, edges }
+const warehouses = Object.fromEntries(Object.keys(provinces).map(p => [p, { capacity: null, stock: { 'Cold Weapons': 60, Bread: 200 } }]))
+const world = { grid: { w: W, h: H, orientation: 'pointy-top-odd-r' }, hexes, provinces, edges, warehouses }
 // presence
 const presence = {}
 for (const [p, pr] of Object.entries(provinces)) { const own = pr.owner === 'vantiria' ? 'vantir' : 'kerin', minority = 'dorn'
   presence[p] = { [own]: Math.round(pr.population * 0.8), [minority]: Math.round(pr.population * 0.2) } }
-const nations = { vantir: { name: 'Vantirians', color: '#c0392b', reactionTemperament: 0.6, poolAffinity: { Agriculture: 1.1 }, prefTraits: {} },
+const nationsDef = { vantir: { name: 'Vantirians', color: '#c0392b', reactionTemperament: 0.6, poolAffinity: { Agriculture: 1.1 }, prefTraits: {} },
   kerin: { name: 'Kerin', color: '#2980b9', reactionTemperament: 0.5, poolAffinity: { Cavalry: 1.3 }, prefTraits: {} },
-  dorn: { name: 'Dornish', color: '#27ae60', reactionTemperament: 0.8, poolAffinity: { Mining: 1.2 }, prefTraits: {} }, presence }
+  dorn: { name: 'Dornish', color: '#27ae60', reactionTemperament: 0.8, poolAffinity: { Mining: 1.2 }, prefTraits: {} } }
+const nations = { nations: nationsDef, presence }
 const countries = { countries: { vantiria: { name: 'Empire of Vantiria', color: '#c0392b', titularNations: ['vantir'], isPlayer: true, aiProfile: null },
   kerinia: { name: 'Kerinian Khanate', color: '#2980b9', titularNations: ['kerin'], isPlayer: false, aiProfile: 'default' } } }
 // regions from the engine's own function (ids match the loader)
 const owners = Object.fromEntries(Object.entries(provinces).map(([p, pr]) => [p, pr.owner]))
 const regs = deriveRegions({ w: W, h: H }, owners)
-const estates = { peasants: { label: 'Peasantry', populationShare: 0.92, wealthPerCap: 0.5,
-    labourShare: { Agriculture: 0.4, Mining: 0.04, Woodcraft: 0.04, Fishing: 0.01, 'Crafting/Industry': 0.2, 'Trade/Commerce': 0.02, Medicine: 0.01, Builders: 0.01, Teaching: 0.005, Culture: 0.005 } },
-  nobility: { label: 'Nobility', populationShare: 0.08, wealthPerCap: 6, labourShare: { Bureaucrats: 0.25, Cavalry: 0.15, Diplomacy: 0.05, Culture: 0.05, Teaching: 0.05 } } }
+const estates = { peasants: { label: 'Peasantry', populationShare: 0.92, wealthPerCap: 0.5, prefBaseline: { extraction_investment: 0.3, conservatism_reformism: -0.2 },
+    labourShare: { Agriculture: 0.4, Mining: 0.04, Woodcraft: 0.04, Fishing: 0.01, 'Crafting/Industry': 0.2, 'Trade/Commerce': 0.02, Medicine: 0.01, Builders: 0.01, Teaching: 0.005, Culture: 0.005, 'Shock Infantry': 0.02, 'Pike Infantry': 0.01, Skirmishers: 0.01 } },
+  nobility: { label: 'Nobility', populationShare: 0.08, wealthPerCap: 6, prefBaseline: { extraction_investment: -0.5, conservatism_reformism: -0.6 }, labourShare: { Bureaucrats: 0.25, Cavalry: 0.15, Diplomacy: 0.05, Culture: 0.05, Teaching: 0.05 } } }
 const cells = {}
 for (const [rid, reg] of Object.entries(regs.regions)) for (const n of ['vantir', 'kerin', 'dorn']) {
   const pop = reg.provinces.reduce((s, p) => s + (presence[p][n] ?? 0), 0); if (pop < 1) continue
   for (const [eid, e] of Object.entries(estates)) { const P = Math.round(pop * e.populationShare); if (P < 1) continue
     cells[`${n}|${eid}|${rid}`] = { population: P, wealth: Math.round(P * e.wealthPerCap), labour: Object.fromEntries(Object.entries(e.labourShare).map(([k, v]) => [k, Math.round(P * v)])) } } }
-const polity = { estates: Object.fromEntries(Object.entries(estates).map(([k, v]) => [k, { label: v.label, populationShare: v.populationShare }])),
-  lawTemplates: { default: { rights: { Council: [{ scope: { kind: 'estate', estate: 'nobility' }, value: true, declaredTurn: 0 }] },
+const polity = { estates: Object.fromEntries(Object.entries(estates).map(([k, v]) => [k, { label: v.label, populationShare: v.populationShare, prefBaseline: v.prefBaseline, wealthPerCap: v.wealthPerCap, labourShare: v.labourShare }])),
+  lawTemplates: { default: { rights: { Council: [{ scope: { kind: 'estate', estate: 'nobility' }, value: true, declaredTurn: 0 }], 'Veto.taxLaw': [{ scope: { kind: 'estate', estate: 'nobility' }, value: true, declaredTurn: 0 }], 'Veto.market': [{ scope: { kind: 'estate', estate: 'nobility' }, value: true, declaredTurn: 0 }] },
                              duties: { Taxation: [{ scope: { kind: 'empire' }, value: { market: 0.05, wealth: 0 }, declaredTurn: 0 }] }, requisitions: [] } },
   countryLaws: { vantiria: { template: 'default' }, kerinia: { template: 'default' } }, cells,
   governments: { vantiria: { ledger: 500, commitBureaucrats: 1 }, kerinia: { ledger: 500, commitBureaucrats: 1 } } }

@@ -64,6 +64,6 @@ export function produceCCO(ctx, country) {
 export const poolScarcity = (ctx, pool) => { const cells = Object.values(ctx.state.polity.cells), tot = sum(cells.map(c => sum(Object.values(c.labour)))) || 1
   const mine = sum(cells.map(c => c.labour[pool] ?? 0)) || 1; return (tot / mine) ** ctx.T('contrib.beta') }
 export const contribution = (ctx, key) => { const c = ctx.state.polity.cells[key]; const main = Object.entries(c.labour).sort((a, b) => b[1] - a[1])[0]?.[0]
-  return (c.salesValueBase ?? 0) * (main ? poolScarcity(ctx, main) : 1) + (c.reliefDelivered ?? 0) }
+  return (c.salesValueBase ?? 0) * (main ? poolScarcity(ctx, main) : 1) + (c.reliefDelivered ?? 0) + ctx.T('teach.value') * (c.flow?.teaching ?? 0) }   // retraining counts as a FLOW (Economics §5)
 
 export const economicsDerive = { produceCCO, contribution, poolLabour, labourAt, extract, zoneOf, zones, cellZone, priceLevel }

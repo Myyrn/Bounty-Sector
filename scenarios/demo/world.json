@@ -2896,5 +2896,833 @@
    "fortress": false,
    "bridge": false
   }
- ]
+ ],
+ "warehouses": {
+  "p:2,0": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:3,0": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:4,0": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:5,0": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:6,0": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:7,0": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:8,0": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:9,0": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:10,0": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:11,0": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:12,0": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:13,0": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:2,1": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:3,1": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:4,1": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:5,1": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:6,1": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:7,1": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:8,1": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:9,1": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:10,1": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:11,1": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:12,1": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:13,1": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:2,2": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:3,2": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:4,2": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:5,2": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:6,2": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:7,2": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:8,2": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:9,2": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:10,2": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:11,2": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:12,2": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:13,2": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:2,3": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:3,3": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:4,3": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:5,3": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:6,3": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:7,3": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:8,3": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:9,3": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:10,3": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:11,3": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:12,3": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:13,3": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:2,4": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:3,4": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:4,4": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:5,4": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:6,4": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:8,4": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:9,4": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:10,4": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:11,4": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:12,4": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:13,4": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:2,5": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:3,5": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:4,5": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:5,5": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:6,5": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:8,5": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:9,5": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:10,5": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:11,5": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:12,5": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:13,5": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:2,6": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:3,6": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:4,6": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:5,6": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:6,6": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:7,6": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:8,6": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:9,6": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:10,6": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:11,6": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:12,6": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:13,6": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:2,7": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:3,7": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:4,7": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:5,7": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:6,7": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:7,7": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:8,7": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:9,7": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:10,7": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:11,7": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:12,7": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:13,7": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:2,8": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:3,8": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:4,8": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:5,8": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:6,8": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:7,8": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:8,8": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:9,8": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:10,8": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:11,8": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:12,8": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:13,8": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:2,9": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:3,9": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:4,9": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:5,9": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:6,9": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:7,9": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:8,9": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:9,9": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:10,9": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:11,9": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:12,9": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  },
+  "p:13,9": {
+   "capacity": null,
+   "stock": {
+    "Cold Weapons": 60,
+    "Bread": 200
+   }
+  }
+ }
 }

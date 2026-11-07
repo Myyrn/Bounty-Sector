@@ -456,5 +456,137 @@
  "aware.k": {
   "value": 5,
   "status": "placeholder"
+ },
+ "acc.altScale": {
+  "value": 1000,
+  "status": "placeholder"
+ },
+ "infra.costPerCap": {
+  "value": 0.01,
+  "status": "placeholder"
+ },
+ "infra.richPerCap": {
+  "value": 5,
+  "status": "placeholder"
+ },
+ "infra.delta": {
+  "value": 5,
+  "status": "placeholder"
+ },
+ "infra.decay": {
+  "value": 0.2,
+  "status": "placeholder"
+ },
+ "hoard.frac": {
+  "value": 0.3,
+  "status": "placeholder"
+ },
+ "defy.risk": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "petition.effect": {
+  "value": 0.2,
+  "status": "placeholder"
+ },
+ "cell.minUtility": {
+  "value": 0.02,
+  "status": "placeholder"
+ },
+ "war.casualty.rate": {
+  "value": 0.15,
+  "status": "placeholder"
+ },
+ "war.harm.k": {
+  "value": 5,
+  "status": "placeholder"
+ },
+ "war.harm.decay": {
+  "value": 0.1,
+  "status": "placeholder"
+ },
+ "war.occ.harm": {
+  "value": 0.2,
+  "status": "placeholder"
+ },
+ "war.field.goodsPerMan": {
+  "value": 0.05,
+  "status": "placeholder"
+ },
+ "war.pursuit": {
+  "value": 0.2,
+  "status": "placeholder"
+ },
+ "war.peace.cede": {
+  "value": 2,
+  "status": "placeholder"
+ },
+ "war.peace.exh": {
+  "value": 1,
+  "status": "placeholder"
+ },
+ "war.attack.rung": {
+  "value": 1,
+  "status": "placeholder"
+ },
+ "war.siege.turns": {
+  "value": 8,
+  "status": "placeholder"
+ },
+ "mob.eligibleShare": {
+  "value": 0.1,
+  "status": "placeholder"
+ },
+ "mob.originGain": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "mob.destResent": {
+  "value": 0.5,
+  "status": "placeholder"
+ },
+ "demo.rate": {
+  "value": 0.2,
+  "status": "placeholder"
+ },
+ "demo.control": {
+  "value": 0.1,
+  "status": "placeholder"
+ },
+ "demo.opinion": {
+  "value": 1.5,
+  "status": "placeholder"
+ },
+ "demo.opinionDecay": {
+  "value": 0.01,
+  "status": "placeholder"
+ },
+ "demo.destResent": {
+  "value": 0.3,
+  "status": "placeholder"
+ },
+ "conv.eps": {
+  "value": 1e-06,
+  "status": "placeholder"
+ },
+ "conv.force": {
+  "value": 0.6,
+  "status": "placeholder"
+ },
+ "prop.resist": {
+  "value": 1,
+  "status": "placeholder"
+ },
+ "cprop.k": {
+  "value": 1.0,
+  "status": "placeholder"
+ },
+ "cprop.frac": {
+  "value": 0.2,
+  "status": "placeholder"
+ },
+ "teach.value": {
+  "value": 1.0,
+  "status": "placeholder"
  }
 }

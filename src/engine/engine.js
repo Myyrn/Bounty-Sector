@@ -8,15 +8,17 @@ export class ActionRegistry {
   constructor() { this.types = new Map() }
   register(t) { if (t.thresholdBound && typeof t.targetScale !== 'function') throw new Error(`${t.id}: threshold-bound types must declare targetScale`); this.types.set(t.id, t) }
   get(id) { const t = this.types.get(id); if (!t) throw new Error(`unknown action type ${id}`); return t }
+  cellTypes() { return [...this.types.values()].filter(t => t.cellAvailability) }
 }
 
 export function makeCtx(state, ruleset, {modules, registry, start, viewer}) {
   const memo = makeMemo(), rng = makeRng(state.meta.rng)
   const ctx = { state, ruleset, start, viewer, rng, modules, registry,
     T: key => { const t = ruleset.tuning[key]; if (!t) throw new Error(`missing tuning key ${key}`); return t.value },
-    derive: {}, handlers: {}, decayFns: {}, report: null, harmQueue: [], polityQueue: {requisitionHits: []},
-    bump: () => memo.bump(), module: id => modules.find(m => m.id === id) }
-  for (const m of modules) { ctx.derive[m.id] = {}; for (const [k, f] of Object.entries(m.derive ?? {})) ctx.derive[m.id][k] = memo.fn(`${m.id}.${k}`, (...a) => f(ctx, ...a)); Object.assign(ctx.handlers, m.handlers ?? {}) }
+    derive: {}, handlers: {}, decayFns: Object.assign({}, ...modules.map(m => m.decayFns ?? {})), report: null, harmQueue: [], polityQueue: {requisitionHits: []},
+    bump: () => memo.bump(), module: id => modules.find(m => m.id === id), schedule: spec => schedule(ctx, spec), nextId: prefix => nextId(ctx, prefix) }
+  ctx.services = {}
+  for (const m of modules) { ctx.services[m.id] = Object.fromEntries(Object.entries(m.services ?? {}).map(([k, f]) => [k, (...a) => f(ctx, ...a)])); ctx.derive[m.id] = {}; for (const [k, f] of Object.entries(m.derive ?? {})) ctx.derive[m.id][k] = memo.fn(`${m.id}.${k}`, (...a) => f(ctx, ...a)); Object.assign(ctx.handlers, m.handlers ?? {}) }
   return ctx
 }
 
@@ -25,7 +27,7 @@ export class TurnReport { constructor() { this.executed = []; this.rejected = []
   refuse(a, g) { this.refused.push({id: a.id, type: a.type, holders: g.holders}) } }
 
 // ---- scheduler (deferred effects)
-export const nextId = (ctx, prefix) => `${prefix}${ctx.state.meta.seq = (ctx.state.meta.seq ?? 0) + 1}`   // deterministic, lives in State
+export function nextId(ctx, prefix) { return `${prefix}${ctx.state.meta.seq = (ctx.state.meta.seq ?? 0) + 1}` }
 export const schedule = (ctx, {dueTurnOffset = 0, dueStep, kind, payload, source}) =>
   ctx.state.pending.push({id: nextId(ctx, 'pe'), dueTurn: ctx.state.meta.turn + dueTurnOffset, dueStep, kind, payload, source})
 export function runDue(ctx, step) {
@@ -40,7 +42,7 @@ export function gate(ctx, a) {
   if (!domain) return {blocked: false}
   const holders = ctx.module('polity').gateHolders(ctx, a.actor, domain)
   if (!holders.length) return {blocked: false}
-  const verdicts = holders.map(c => ({cell: c, s: stance(c, a, ctx, ctx.module('polity').stanceFns(a.type))}))
+  const verdicts = holders.map(c => ({cell: c, s: stance(c, a, ctx, ctx.module('polity').stanceFns(ctx, a.type))}))
   const refusers = verdicts.filter(v => !approves(v.s, ctx))
   return refusers.length ? {blocked: true, holders: refusers.map(v => v.cell), verdicts} : {blocked: false, verdicts}
 }

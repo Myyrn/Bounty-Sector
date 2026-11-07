@@ -962,6 +962,19 @@
     "control": 2,
     "coordination": 0,
     "observation": 0
+   },
+   "combat": {
+    "meleeAtk": 1,
+    "meleeDef": 0.9,
+    "rangedAtk": 0,
+    "speed": 1,
+    "tags": [
+     "melee"
+    ],
+    "upkeep": {
+     "Bread": 0.05,
+     "Garments": 0.005
+    }
    }
   },
   "Pike Infantry": {
@@ -970,6 +983,19 @@
     "control": 2,
     "coordination": 0,
     "observation": 0
+   },
+   "combat": {
+    "meleeAtk": 0.7,
+    "meleeDef": 1.2,
+    "rangedAtk": 0,
+    "speed": 1,
+    "tags": [
+     "reach"
+    ],
+    "upkeep": {
+     "Bread": 0.05,
+     "Garments": 0.005
+    }
    }
   },
   "Skirmishers": {
@@ -978,6 +1004,19 @@
     "control": 1,
     "coordination": 0,
     "observation": 1
+   },
+   "combat": {
+    "meleeAtk": 0.3,
+    "meleeDef": 0.4,
+    "rangedAtk": 0.8,
+    "speed": 1,
+    "tags": [
+     "ranged"
+    ],
+    "upkeep": {
+     "Bread": 0.05,
+     "Garments": 0.005
+    }
    }
   },
   "Cavalry": {
@@ -986,6 +1025,19 @@
     "control": 1,
     "coordination": 0,
     "observation": 1
+   },
+   "combat": {
+    "meleeAtk": 1.2,
+    "meleeDef": 0.7,
+    "rangedAtk": 0,
+    "speed": 3,
+    "tags": [
+     "mounted"
+    ],
+    "upkeep": {
+     "Bread": 0.05,
+     "Garments": 0.005
+    }
    }
   },
   "Artillery": {
@@ -994,6 +1046,19 @@
     "control": 0,
     "coordination": 0,
     "observation": 0
+   },
+   "combat": {
+    "meleeAtk": 0.1,
+    "meleeDef": 0.2,
+    "rangedAtk": 3,
+    "speed": 1,
+    "tags": [
+     "ranged"
+    ],
+    "upkeep": {
+     "Bread": 0.05,
+     "Garments": 0.005
+    }
    }
   },
   "Siege Corps": {
@@ -1002,6 +1067,20 @@
     "control": 0,
     "coordination": 0,
     "observation": 0
+   },
+   "combat": {
+    "meleeAtk": 0.2,
+    "meleeDef": 0.3,
+    "rangedAtk": 0,
+    "speed": 1,
+    "tags": [
+     "siege"
+    ],
+    "siege": 2,
+    "upkeep": {
+     "Bread": 0.05,
+     "Garments": 0.005
+    }
    }
   },
   "Fishing": {
@@ -1359,6 +1438,46 @@
    "symmetricAllowed": true,
    "postAlpha": true
   }
+ },
+ "war": {
+  "interaction": {
+   "mounted": {
+    "reach": 0.4,
+    "ranged": 1.5,
+    "melee": 1,
+    "mounted": 1,
+    "siege": 1.2
+   },
+   "melee": {
+    "melee": 1,
+    "reach": 0.8,
+    "mounted": 1,
+    "ranged": 1.2,
+    "siege": 1.2
+   },
+   "reach": {
+    "melee": 1,
+    "reach": 1,
+    "mounted": 1.5,
+    "ranged": 1,
+    "siege": 1
+   },
+   "ranged": {
+    "melee": 1,
+    "reach": 1,
+    "mounted": 1,
+    "ranged": 1,
+    "siege": 1
+   },
+   "siege": {
+    "melee": 1,
+    "reach": 1,
+    "mounted": 1,
+    "ranged": 1,
+    "siege": 1
+   }
+  },
+  "harassVsMelee": 0.4
  },
  "cb": {
   "tiers": [
@@ -1833,6 +1952,138 @@
   },
   "aware.k": {
    "value": 5,
+   "status": "placeholder"
+  },
+  "acc.altScale": {
+   "value": 1000,
+   "status": "placeholder"
+  },
+  "infra.costPerCap": {
+   "value": 0.01,
+   "status": "placeholder"
+  },
+  "infra.richPerCap": {
+   "value": 5,
+   "status": "placeholder"
+  },
+  "infra.delta": {
+   "value": 5,
+   "status": "placeholder"
+  },
+  "infra.decay": {
+   "value": 0.2,
+   "status": "placeholder"
+  },
+  "hoard.frac": {
+   "value": 0.3,
+   "status": "placeholder"
+  },
+  "defy.risk": {
+   "value": 0.5,
+   "status": "placeholder"
+  },
+  "petition.effect": {
+   "value": 0.2,
+   "status": "placeholder"
+  },
+  "cell.minUtility": {
+   "value": 0.02,
+   "status": "placeholder"
+  },
+  "war.casualty.rate": {
+   "value": 0.15,
+   "status": "placeholder"
+  },
+  "war.harm.k": {
+   "value": 5,
+   "status": "placeholder"
+  },
+  "war.harm.decay": {
+   "value": 0.1,
+   "status": "placeholder"
+  },
+  "war.occ.harm": {
+   "value": 0.2,
+   "status": "placeholder"
+  },
+  "war.field.goodsPerMan": {
+   "value": 0.05,
+   "status": "placeholder"
+  },
+  "war.pursuit": {
+   "value": 0.2,
+   "status": "placeholder"
+  },
+  "war.peace.cede": {
+   "value": 2,
+   "status": "placeholder"
+  },
+  "war.peace.exh": {
+   "value": 1,
+   "status": "placeholder"
+  },
+  "war.attack.rung": {
+   "value": 1,
+   "status": "placeholder"
+  },
+  "war.siege.turns": {
+   "value": 8,
+   "status": "placeholder"
+  },
+  "mob.eligibleShare": {
+   "value": 0.1,
+   "status": "placeholder"
+  },
+  "mob.originGain": {
+   "value": 0.5,
+   "status": "placeholder"
+  },
+  "mob.destResent": {
+   "value": 0.5,
+   "status": "placeholder"
+  },
+  "demo.rate": {
+   "value": 0.2,
+   "status": "placeholder"
+  },
+  "demo.control": {
+   "value": 0.1,
+   "status": "placeholder"
+  },
+  "demo.opinion": {
+   "value": 1.5,
+   "status": "placeholder"
+  },
+  "demo.opinionDecay": {
+   "value": 0.01,
+   "status": "placeholder"
+  },
+  "demo.destResent": {
+   "value": 0.3,
+   "status": "placeholder"
+  },
+  "conv.eps": {
+   "value": 0.000001,
+   "status": "placeholder"
+  },
+  "conv.force": {
+   "value": 0.6,
+   "status": "placeholder"
+  },
+  "prop.resist": {
+   "value": 1,
+   "status": "placeholder"
+  },
+  "cprop.k": {
+   "value": 1,
+   "status": "placeholder"
+  },
+  "cprop.frac": {
+   "value": 0.2,
+   "status": "placeholder"
+  },
+  "teach.value": {
+   "value": 1,
    "status": "placeholder"
   }
  }

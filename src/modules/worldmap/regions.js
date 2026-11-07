@@ -76,6 +76,7 @@ function rebalance(part, comp, k, nbrs, minSize, maxSize) {
 }
 
 /** --- cell stock re-keying on fracture / merger (per-cell state split by Nations' population share) --- */
+export const RECORDS = ['labour', 'labourCommitted', 'hoard']          // extensive records (split pro rata, summed on merge)
 export const EXTENSIVE = ['population', 'wealth']                 // split pro rata / summed
 /** shares: Record<newRegionId, fraction> (Σ = 1) from Nations' presence in the provinces of each part */
 export function splitShares(oldProvs, parts, presenceOf /* (prov)=>count of this nation */) {
@@ -88,7 +89,7 @@ export function splitCell(cell, shares) {
   for (const [rid, f] of Object.entries(shares)) {
     const c = structuredClone(cell); c.region = rid
     for (const k of EXTENSIVE) if (k in c) c[k] = cell[k] * f
-    if (c.labour) for (const pool of Object.keys(c.labour)) c.labour[pool] = cell.labour[pool] * f
+    for (const rec of RECORDS) if (c[rec]) for (const k of Object.keys(c[rec])) c[rec][k] = cell[rec][k] * f
     out[rid] = c       // intensive fields (grievance, opinion, preference stacks, momentum) are copied unchanged
   }
   return out
@@ -96,7 +97,7 @@ export function splitCell(cell, shares) {
 export function mergeCells(cells, newRegion) {
   const tot = cells.reduce((s, c) => s + c.population, 0) || 1, m = structuredClone(cells[0]); m.region = newRegion
   for (const k of EXTENSIVE) m[k] = cells.reduce((s, c) => s + (c[k] ?? 0), 0)
-  m.labour = {}; for (const c of cells) for (const [pl, v] of Object.entries(c.labour ?? {})) m.labour[pl] = (m.labour[pl] ?? 0) + v
+  for (const rec of RECORDS) { m[rec] = {}; for (const c of cells) for (const [k, v] of Object.entries(c[rec] ?? {})) m[rec][k] = (m[rec][k] ?? 0) + v }
   m.grievance = {}; for (const c of cells) for (const [n, v] of Object.entries(c.grievance ?? {})) m.grievance[n] = (m.grievance[n] ?? 0) + v * c.population / tot
   return m
 }

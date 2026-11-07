@@ -29,12 +29,14 @@ function production(ctx) {
   const zs = D.zones(ctx), prod = {}                                    // prod[cellKey][good] = qty produced this turn
   const credit = (key, g, q) => { if (q > 0) { prod[key] ??= {}; prod[key][g] = (prod[key][g] ?? 0) + q } }
   ctx.scratch.zs = zs; ctx.scratch.lastOutput = {}
+  ctx.scratch.mil = {}; for (const r of ctx.derive.war?.upkeepBySource?.() ?? []) { const z = D.zoneOf(ctx, r.province); ((ctx.scratch.mil[z] ??= {})[r.good] = (ctx.scratch.mil[z][r.good] ?? 0) + r.qty) }   // military demand (War state, via derive)
   // derived demand: final consumption, propagated backward through recipes (net of stock); drives value added and caps runs
   const goodsDef = ctx.ruleset.goods, tiersDown = ['transport', 'heavy', 'light', 'semi']
   const need = {}, demand = {}                                                    // need[z][g] = net units still to be produced this turn
   for (const z of Object.keys(zs)) { const Dm = {}
     for (const k of Object.keys(cells(ctx))) if (D.cellZone(ctx, k) === z) { const c = cells(ctx)[k]
       for (const tier of ['subsistence', 'comfort', 'luxury']) for (const item of ctx.ruleset.consumption[tier] ?? []) { const g = [...item.any].sort((a, b) => zoneStock(ctx, zs, z, b) - zoneStock(ctx, zs, z, a))[0]; Dm[g] = (Dm[g] ?? 0) + item.perCapita * c.population } }
+    for (const [g, q] of Object.entries(ctx.scratch.mil[z] ?? {})) Dm[g] = (Dm[g] ?? 0) + q
     need[z] = {}; demand[z] = Dm
     for (const tier of tiersDown) for (const [g, d] of Object.entries(goodsDef)) { if (d.tier !== tier) continue
       const n = Math.max(0, (Dm[g] ?? 0) - zoneStock(ctx, zs, z, g)); if (n <= 1e-9) continue; need[z][g] = n
@@ -54,7 +56,10 @@ function production(ctx) {
     }
   }
   // processing (zone-level), tier by tier so chains complete within the turn; labour follows value added
-  for (const [g, gs] of Object.entries(prod)) for (const [good, q] of Object.entries(gs)) { const z = D.cellZone(ctx, g); zoneAdd(ctx, zs, z, good, q) }   // raw output enters the market first
+  for (const [k, gs] of Object.entries(prod)) { const c = cells(ctx)[k], z = D.cellZone(ctx, k), h = c.hoardFrac ?? 0             // raw output enters the market first; a hoarding cell withholds a fraction
+    c.hoard ??= {}
+    for (const [good, q] of Object.entries(gs)) { const held = q * h; if (held > 0) { c.hoard[good] = (c.hoard[good] ?? 0) + held; gs[good] = q - held }; zoneAdd(ctx, zs, z, good, gs[good]) }
+    if (h === 0) for (const [good, q] of Object.entries(c.hoard)) if (q > 0) { zoneAdd(ctx, zs, z, good, q); gs[good] = (gs[good] ?? 0) + q; c.hoard[good] = 0 } }   // released when the cell stops hoarding
   const labLeft = {}                                                 // labour ledger per zone/pool: tiers draw down one budget (no double counting)
   for (const tier of ['semi', 'light', 'heavy', 'transport']) for (const [z, ps] of Object.entries(zs)) {
     for (const pool of new Set(Object.values(goodsDef).filter(x => x.tier === tier && x.recipe).map(x => x.recipe.pool))) {
@@ -114,6 +119,7 @@ function pricePass(ctx) {
   ctx.scratch.sales = {}                                               // cell -> goods put on the market (for sales value)
   for (const k of Object.keys(cells(ctx))) { const c = cells(ctx)[k], z = D.cellZone(ctx, k)
     for (const tier of ['subsistence', 'comfort', 'luxury']) for (const item of ctx.ruleset.consumption[tier] ?? []) Dm[z][[...item.any].sort((a, b) => zoneStock(ctx, zs, z, b) - zoneStock(ctx, zs, z, a))[0]] += item.perCapita * c.population }
+  for (const [z, m] of Object.entries(ctx.scratch.mil ?? {})) for (const [g, q] of Object.entries(m)) if (Dm[z]) Dm[z][g] = (Dm[z][g] ?? 0) + q
   const lvl = ctx.derive.economics.priceLevel()
   const base = g => ctx.ruleset.goods[g].baseValue
   const pre = (z, g) => base(g) * D.scarcity(ctx, S[z][g], Dm[z][g]) * lvl
@@ -137,7 +143,7 @@ function cascade(ctx) {
         const avail = a => zoneStock(ctx, zs, z, a) > 1e-9 ? 0 : 1, g = [...item.any].sort((a, b) => avail(a) - avail(b) || price(a, z) - price(b, z))[0], need = item.perCapita * c.population   // cheapest ALTERNATIVE THAT IS ON THE MARKET
         wants.push({ k, z, g, need, q: Math.min(need, c.cash / Math.max(1e-9, price(g, z))) }) }
       for (const z of Object.keys(zs)) for (const g of new Set(wants.filter(w => w.z === z).map(w => w.g))) {
-        const ws = wants.filter(w => w.z === z && w.g === g), tot = sum(ws.map(w => w.q)), fill = tot > 0 ? Math.min(1, zoneStock(ctx, zs, z, g) / tot) : 0
+        const ws = wants.filter(w => w.z === z && w.g === g), tot = sum(ws.map(w => w.q)), milq = tier === 'subsistence' ? (ctx.scratch.mil?.[z]?.[g] ?? 0) : 0, fill = tot > 0 ? Math.min(1, zoneStock(ctx, zs, z, g) / (tot + milq)) : 0   // army upkeep is a participant: its share stays in stock for step 4
         for (const w of ws) { const q = w.q * fill; zoneTake(ctx, zs, z, g, q); const c = cells(ctx)[w.k], cost = q * price(g, z); c.cash -= cost; c.purchases += cost; w.bought = q } }
       if (typeof process !== 'undefined' && process.env?.DBG) console.log('item', item.any.join('|'), 'need', Math.round(sum(wants.map(w => w.need))), 'bought', Math.round(sum(wants.map(w => w.bought ?? 0))), 'q', Math.round(sum(wants.map(w => w.q))))
       for (const w of wants) { const c = cells(ctx)[w.k]; c.satisfaction[tier] = Math.min(c.satisfaction[tier], 1)
@@ -147,12 +153,11 @@ function cascade(ctx) {
   for (const k of keys) { const c = cells(ctx)[k]; for (const t of ['subsistence', 'comfort', 'luxury']) { c.satisfaction[t] = clamp01(c.satisfaction[`_${t}`] ?? 1); delete c.satisfaction[`_${t}`] }
     c.shortfall = Math.max(0, (1 - c.satisfaction.subsistence)) * sum((ctx.ruleset.consumption.subsistence ?? []).map(i => i.perCapita * c.population * ctx.ruleset.goods[i.any[0]].baseValue)) }
 }
-export const dutyValue = (ctx, key, duty, dflt) => { const country = countryOfCell(ctx, key), law = ctx.state.polity.law[country]?.duties?.[duty] ?? []
-  return resolveState(law, key, scopeCtx(ctx, country)) ?? dflt }
+export const dutyValue = (ctx, key, duty, dflt) => ctx.derive.polity.duty(key, duty, dflt)
 function taxation(ctx) {
   ctx.scratch.tax = {}
   for (const [k, c] of Object.entries(cells(ctx))) { const rate = dutyValue(ctx, k, 'Taxation', { market: 0, wealth: 0 }), country = countryOfCell(ctx, k)
-    const due = rate.market * c.salesValue + rate.wealth * c.wealth, paid = Math.min(due * ctx.derive.polity.compliance(k).involuntary, Math.max(0, c.cash))
+    const due = rate.market * c.salesValue + rate.wealth * c.wealth, paid = Math.min(due * ctx.derive.polity.compliance(k).involuntary * (1 - (c.defiance?.tax ?? 0)), Math.max(0, c.cash))   // defiance (tax refusal) scales delivery down
     c.cash -= paid; c.wealth = c.wealth + c.salesValue - c.purchases - paid; if (c.wealth < 0) c.wealth = 0       // Wealth never negative
     ctx.scratch.tax[country] = (ctx.scratch.tax[country] ?? 0) + paid } }
 function debtService(ctx) {
@@ -180,10 +185,15 @@ function ledgerUpdate(ctx, L0) {
     g.upkeepFraction = need > 0 ? clamp01(1 - sum(mand.map(x => x.grant)) / need) : 0
     g.ledger = Math.max(0, start - spent + (ctx.scratch.tax[country] ?? 0) + (g.borrowedThisTurn ?? 0)); g.borrowedThisTurn = 0 } }
 
+import { stepTeaching } from './teaching.js'
 export function step3(ctx) {
   ctx.scratch = {}; ctx._grav = null
   const L0 = Object.fromEntries(Object.entries(ctx.state.admin.governments).map(([c, g]) => [c, g.ledger]))
-  production(ctx); landSplit(ctx); requisition(ctx); pricePass(ctx); cascade(ctx); taxation(ctx); debtService(ctx); creditClearing(ctx); ledgerUpdate(ctx, L0)
+  production(ctx); landSplit(ctx); requisition(ctx); pricePass(ctx); cascade(ctx); taxation(ctx); debtService(ctx); creditClearing(ctx); stepTeaching(ctx); ledgerUpdate(ctx, L0)
   ctx.state.economy.lastOutput = ctx.scratch.lastOutput; ctx._grav = null
+  for (const p of Object.keys(ctx.state.economy.tradeInfra)) ctx.state.economy.tradeInfra[p] = Math.max(0, ctx.state.economy.tradeInfra[p] - ctx.T('infra.decay'))   // trade infrastructure decays without upkeep
   ctx.state.economy.coinage.lastVolume = Math.max(1e-9, sum(Object.values(cells(ctx)).map(c => c.salesValueBase ?? 0)))
 }
+
+/** service for other modules (War supply): draw goods from the trade zone that contains `province`; returns the quantity actually taken */
+export function drawFromZone(ctx, province, good, qty) { const zs = D.zones(ctx); return zoneTake(ctx, zs, D.zoneOf(ctx, province), good, qty) }

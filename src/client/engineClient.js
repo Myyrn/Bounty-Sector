@@ -4,6 +4,7 @@ import { createModules, createRegistry } from '../modules/index.js'
 import { buildState } from '../data/loaders/buildState.js'
 import { effectiveRuleset } from '../data/loaders/readPackage.js'
 import * as D from '../modules/economics/derive.js'
+import { simpleWarOrders } from '../modules/ai/simpleWar.js'
 const sum = a => a.reduce((s, x) => s + x, 0)
 export class EngineClient {
   constructor() { this.modules = createModules(); this.registry = createRegistry(); this.orders = []; this.history = [] }
@@ -12,7 +13,7 @@ export class EngineClient {
   ctx() { return makeCtx(structuredClone(this.state), this.ruleset, { modules: this.modules, registry: this.registry, start: this.state }) }
   async submit(order) { this.orders.push({ id: `o${this.state.meta.turn}.${this.seq++}`, visibility: 'public', ...order }); return this.orders.length }
   async clearOrders() { this.orders = [] }
-  async endTurn() { const r = resolveTurn(this.state, this.ruleset, this.orders, { modules: this.modules, registry: this.registry }); this.state = r.state; this.orders = []
+  async endTurn() { const r = resolveTurn(this.state, this.ruleset, this.orders, { modules: this.modules, registry: this.registry, aiOrders: (s0, rs) => simpleWarOrders(makeCtx(structuredClone(s0), rs, { modules: this.modules, registry: this.registry, start: s0 })) }); this.state = r.state; this.orders = []
     this.history.push(this.summary()); return { report: r.report, turn: this.state.meta.turn } }
   async runTurns(n) { for (let i = 0; i < n; i++) await this.endTurn(); return this.snapshotMeta() }
   summary() { const ctx = this.ctx(), out = { turn: this.state.meta.turn, countries: {} }
@@ -22,9 +23,12 @@ export class EngineClient {
     return out }
   async query(name, args = {}) { const ctx = this.ctx()
     if (name === 'cells') return Object.values(this.state.polity.cells).filter(c => !args.country || ctx.derive.worldmap.regionOwner(c.region) === args.country).map(c => ({ key: c.key, population: Math.round(c.population), wealth: Math.round(c.wealth),
-      satisfaction: c.satisfaction, grievance: c.grievance, compliance: ctx.derive.polity.compliance(c.key), rung: Math.max(0, ...Object.entries(this.state.polity.rung).filter(([k]) => k.startsWith(c.key + '|')).map(([, v]) => v)) }))
+      freeShock: Math.floor((c.labour['Shock Infantry'] ?? 0) - (c.labourCommitted['Shock Infantry'] ?? 0)), satisfaction: c.satisfaction, grievance: c.grievance, compliance: ctx.derive.polity.compliance(c.key), rung: Math.max(0, ...Object.entries(this.state.polity.rung).filter(([k]) => k.startsWith(c.key + '|')).map(([, v]) => v)) }))
     if (name === 'zones') { const zs = D.zones(ctx); return Object.entries(zs).map(([hub, ps]) => ({ hub, provinces: ps.length, owner: this.state.world.provinces[hub].owner })) }
     if (name === 'map') return { grid: this.state.world.grid, hexes: this.state.world.hexes, provinces: this.state.world.provinces, regions: this.state.world.regionSnapshot.assignment, countries: this.state.countries, edges: this.state.world.edges }
+    if (name === 'armies') return Object.values(this.state.war.armies).map(a => ({ id: a.id, owner: a.owner, position: a.position, destination: a.destination, tactic: a.tactic, men: Math.round(a.units.reduce((s, u) => s + this.state.war.units[u].n, 0)), cohesion: +(a.units.reduce((s, u) => s + this.state.war.units[u].cohesion, 0) / a.units.length).toFixed(2), supply: +(a.units.reduce((s, u) => s + this.state.war.units[u].supply, 0) / a.units.length).toFixed(2) }))
+    if (name === 'wars') return structuredClone(this.state.war.wars).map(w => ({ ...w, occupations: Object.keys(this.state.war.occupations).length }))
+    if (name === 'occupations') return structuredClone(this.state.war.occupations)
     if (name === 'government') return structuredClone(this.state.admin.governments[args.country])
     if (name === 'law') return structuredClone(this.state.polity.law[args.country])
     if (name === 'history') return this.history

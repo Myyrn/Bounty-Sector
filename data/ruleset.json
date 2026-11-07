@@ -2121,6 +2121,178 @@
   "civil.independenceHold": {
    "value": 0.6,
    "status": "placeholder"
+  },
+  "rep.break": {
+   "value": 1,
+   "status": "placeholder"
+  },
+  "rep.allianceBonus": {
+   "value": 0.5,
+   "status": "placeholder"
+  },
+  "rep.recognize": {
+   "value": 1,
+   "status": "placeholder"
+  },
+  "rep.sanction": {
+   "value": 0.3,
+   "status": "placeholder"
+  },
+  "closeness.Guarantee": {
+   "value": 0.8,
+   "status": "placeholder"
+  },
+  "closeness.BenevolentNeutrality": {
+   "value": 0.5,
+   "status": "placeholder"
+  },
+  "closeness.Defensive": {
+   "value": 0.8,
+   "status": "placeholder"
+  },
+  "closeness.Coalition": {
+   "value": 0.4,
+   "status": "placeholder"
+  },
+  "closeness.StandingOffensive": {
+   "value": 0.7,
+   "status": "placeholder"
+  },
+  "closeness.Confederation": {
+   "value": 0.9,
+   "status": "placeholder"
+  },
+  "closeness.Dependency": {
+   "value": 0.6,
+   "status": "placeholder"
+  },
+  "closeness.kin": {
+   "value": 0.5,
+   "status": "placeholder"
+  },
+  "overreach.tradeNorm": {
+   "value": 100,
+   "status": "placeholder"
+  },
+  "gp.milWeight": {
+   "value": 0.5,
+   "status": "placeholder"
+  },
+  "leverage.exhaustion": {
+   "value": 1,
+   "status": "placeholder"
+  },
+  "cb.nationalism.share": {
+   "value": 0.3,
+   "status": "placeholder"
+  },
+  "cb.militaristic.wars": {
+   "value": 3,
+   "status": "placeholder"
+  },
+  "cb.mag.break": {
+   "value": 1,
+   "status": "placeholder"
+  },
+  "cb.mag.recognize": {
+   "value": 1,
+   "status": "placeholder"
+  },
+  "cb.mag.sanction": {
+   "value": 1,
+   "status": "placeholder"
+  },
+  "treaty.proposalTTL": {
+   "value": 5,
+   "status": "placeholder"
+  },
+  "treaty.rep": {
+   "value": 0.5,
+   "status": "placeholder"
+  },
+  "treaty.bn": {
+   "value": 0.5,
+   "status": "placeholder"
+  },
+  "treaty.pact": {
+   "value": 0.4,
+   "status": "placeholder"
+  },
+  "treaty.pactBurden": {
+   "value": 0.3,
+   "status": "placeholder"
+  },
+  "treaty.guaranteeBurden": {
+   "value": 0.6,
+   "status": "placeholder"
+  },
+  "treaty.guaranteeBenefit": {
+   "value": 0.8,
+   "status": "placeholder"
+  },
+  "treaty.axisBurden": {
+   "value": 0.5,
+   "status": "placeholder"
+  },
+  "treaty.axisGain": {
+   "value": 0.3,
+   "status": "placeholder"
+  },
+  "treaty.depBenefit": {
+   "value": 0.2,
+   "status": "placeholder"
+  },
+  "treaty.coop": {
+   "value": 0.4,
+   "status": "placeholder"
+  },
+  "treaty.conf": {
+   "value": 0.6,
+   "status": "placeholder"
+  },
+  "treaty.enemy": {
+   "value": 0.4,
+   "status": "placeholder"
+  },
+  "treaty.cellAxisCost": {
+   "value": 0.15,
+   "status": "placeholder"
+  },
+  "treaty.cellPactCost": {
+   "value": 0.1,
+   "status": "placeholder"
+  },
+  "treaty.cellCoopRelief": {
+   "value": 0.1,
+   "status": "placeholder"
+  },
+  "veto.repMin": {
+   "value": -0.5,
+   "status": "placeholder"
+  },
+  "recog.hold": {
+   "value": 0.5,
+   "status": "placeholder"
+  },
+  "recog.standing": {
+   "value": 1,
+   "status": "placeholder"
+  },
+  "war.peace.treaty": {
+   "value": 0.3,
+   "status": "placeholder"
+  },
+  "rep.breakClose": {
+   "value": 0.5,
+   "status": "placeholder"
+  },
+  "treaty.confAxisShare": {
+   "value": 0.5,
+   "status": "placeholder"
+  },
+  "treaty.cellConfShare": {
+   "value": 0.5,
+   "status": "placeholder"
   }
  }
 }

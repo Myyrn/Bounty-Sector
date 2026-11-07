@@ -14,3 +14,16 @@ Edited: war/step.js (controller-aware movement/supply/sieges; owner retaking a b
   ai/simpleWar.js (the AI Government fights blocs), polity/remaining.js (applyLawEntries shared with peace concessions), buildState.js (war.blocs), engineClient.js (query 'blocs'),
   tuning.defaults.json (+9 civil.* placeholders), data/ruleset.json (regenerated)
 State additions: war.blocs{id:{country,need,goal,status,secure,calm,...}}, war record fields internal/result, cell.flags.rebel / flags.martialLaw, occupations[p].rebel
+
+# Diplomacy (third pass: core layer)
+New module: src/modules/diplomacy/{common,readouts,treaties,actions,module}.js, src/modules/ai/simpleDiplomacy.js, tests/diplomacy.test.js (14 tests)
+  readouts.js   Reputational Leverage (decaying per-(observer,subject) stacks; Alliance bonus is a readout), Leverage Categories (economic/diplomatic/military/cultural, per Country or bloc, never summed),
+                power ranking + great-power-backing predicate, CBs (state-based + structural derived; event-based stored; persistence by tier; external recognition), per-observer overreach
+  treaties.js   proposals + ratification (government stance x relationship; cells holding Veto.treaty consulted through the same consent machinery; ForeignPolicy consent),
+                Sanction / Dependency / Alliance (6 tiers) / Confederation / Cooperation, denounce = broken promise, axis hooks, war chain over the treaty graph, recognition route,
+                Guarantee of a rebel bloc, Formation hand-over (treaties/recognition/grants re-keyed)
+  actions.js    proposeTreaty, answerProposal, imposeSanction, denounceTreaty, grantFacilitation (real zero-sum transfer), recognizeBloc, ratifyTreaty (pseudo-type for consent)
+Edited: engine/engine.js (gate(): DomainVeto grantees are foreign Veto holders; cannot be forced through Control), war/actions.js (declareWar goals + non-aggression check + diplomacy.warDeclared; MilitaryCap in fieldUnits),
+  war/module.js (treaty terms in the Peace Conference), war/internal.js (recognised blocs hold out; Formation / end hand-offs to Diplomacy), economics/step.js (tradeFactor on cross-border edges),
+  modules/index.js, buildState.js (state.diplomacy from relations.json), engineClient.js (AI diplomacy orders, query 'diplomacy'), tuning.defaults.json (+43 placeholder keys), data/ruleset.json (regenerated)
+State additions: state.diplomacy {treaties, cbs, leverage, grants, proposals, recognition, claims}; war records gain goals / chained / chainedFrom / overreach

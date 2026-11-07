@@ -124,7 +124,7 @@ function pricePass(ctx) {
   const base = g => ctx.ruleset.goods[g].baseValue
   const pre = (z, g) => base(g) * D.scarcity(ctx, S[z][g], Dm[z][g]) * lvl
   for (const [a, b] of D.zoneEdges(ctx)) for (const g of goods) {       // cross-zone flows: one pass, capped by throughput
-    let cap = D.throughputCap(ctx, a, b); const [lo, hi] = pre(a, g) <= pre(b, g) ? [a, b] : [b, a]
+    let cap = D.throughputCap(ctx, a, b) * (ctx.derive.diplomacy?.tradeFactor(a, b, g) ?? 1); const [lo, hi] = pre(a, g) <= pre(b, g) ? [a, b] : [b, a]
     if (pre(hi, g) > pre(lo, g) * (1 + ctx.T('flow.friction'))) { const surplus = Math.max(0, S[lo][g] - Dm[lo][g]), q = Math.min(cap, surplus * ctx.T('flow.share'), zoneStock(ctx, zs, lo, g))
       if (q > 0) { zoneTake(ctx, zs, lo, g, q); zoneAdd(ctx, zs, hi, g, q); S[lo][g] -= q; S[hi][g] += q } } }
   ctx.scratch.price = (g, z) => base(g) * D.scarcity(ctx, S[z][g], Dm[z][g]) * lvl      // final scarcity from post-flow balances

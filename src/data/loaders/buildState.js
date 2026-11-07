@@ -1,4 +1,5 @@
 // data/loaders/buildState.js — Scenario Package + Ruleset -> GameState (plain JSON).
+import { makeDiplomacyState } from '../../modules/diplomacy/common.js'
 import { seedFrom } from '../../kernel/rng.js'
 import { cellKey } from '../../kernel/ids.js'
 import { edgeKey } from '../../modules/worldmap/hex.js'
@@ -30,4 +31,5 @@ export function buildState(pkg, ruleset) {
     economy: { warehouses: structuredClone(w.warehouses ?? {}), tradeInfra: Object.fromEntries(Object.entries(provinces).map(([id, p]) => [id, p.tradeInfrastructureLevel ?? 0])), obligations: [], land: {}, lastOutput: {}, lastRate: {},
                coinage: { supply: Math.max(1, totalWealth), lastVolume: vol0, ratio0: Math.max(1, totalWealth) / vol0 } },
     war: { units: {}, armies: {}, wars: [], score: [], sieges: {}, occupations: {}, blocs: {}, seq: 0 },
+    diplomacy: makeDiplomacyState(pkg.relations),
     polity: { cells, momentum: {}, rung: {}, log: [], law }, admin: { governments }, countries: pkg.countries.countries, player: pkg.scenario.playerCountry } }

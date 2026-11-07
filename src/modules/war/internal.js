@@ -74,12 +74,14 @@ export function formCountry(ctx, bloc) {
   for (const p of held) { ctx.state.world.provinces[p].owner = id; delete W(ctx).occupations[p] }                                       // Regions re-derive at step 8
   for (const a of Object.values(W(ctx).armies)) if (a.owner === bloc.id) a.owner = id
   for (const c of ms) { c.defiance = {}; delete c.flags.rebel }
+  ctx.services.diplomacy?.onFormation(bloc.id, id)                                                                                          // recognition / Guarantees pass to the new Country
   ctx.bump(); return id }
 
 export function endBloc(ctx, bloc, how) {
   const ms = members(ctx, bloc), w = W(ctx).wars.find(x => x.internal && x.b === bloc.id)
   if (how === 'seceded') bloc.country2 = formCountry(ctx, bloc)
   else { disbandArmies(ctx, bloc.id); releaseHeld(ctx, bloc.id); for (const c of ms) { delete c.flags.rebel; c.defiance = {} } }
+  ctx.services.diplomacy?.onBlocEnded(bloc.id)                                                                                              // chained foreign wars end with their cause
   bloc.status = how; bloc.ended = ctx.state.meta.turn; if (w) { w.active = false; w.ended = ctx.state.meta.turn; w.result = how }
   if (how === 'suppressed') for (const c of ms) { (c.flags ??= {}).martialLaw = { since: ctx.state.meta.turn, until: ctx.state.meta.turn + ctx.T('civil.martial.turns') }    // civil-war martial law: same Control cost as occupation
     c.opinionGovMods.push({ id: `suppress.${ctx.state.meta.turn}`, value: -ctx.T('civil.suppress.opinion'), decay: { kind: 'exp', rateKey: 'demo.opinionDecay' }, turn: ctx.state.meta.turn }) }
@@ -112,7 +114,7 @@ export function concessionValue(ctx, bloc, entries) {
 export function internalPeaceEvaluation(ctx, bloc, terms) {
   const own = strength(ctx, bloc.id), foe = strength(ctx, bloc.country), ms = members(ctx, bloc), harm = sum(ms.map(c => c.warHarm ?? 0)) / (ms.length || 1), T = ctx.T
   return stance(bloc.id, terms, ctx, { selfInterest: () => (0.5 - own / (own + foe + 1e-9)) + T('war.peace.exh') * harm + T('civil.concession') * concessionValue(ctx, bloc, terms.concessions ?? [])
-      + (bloc.goal === 'independence' ? (terms.secede ? T('civil.secedeValue') : -T('civil.independenceHold')) : 0), modifier: () => 1 }) }
+      + (bloc.goal === 'independence' ? (terms.secede ? T('civil.secedeValue') : -T('civil.independenceHold')) : 0) - T('recog.hold') * (ctx.derive.diplomacy?.recognizersOf(bloc.id).length ?? 0), modifier: () => 1 }) }
 export function resolveInternalPeace(ctx, w, terms) {
   const bloc = W(ctx).blocs[w.b]; if (!bloc || bloc.status !== 'active') return
   const ok = approves(internalPeaceEvaluation(ctx, bloc, terms), ctx); w.lastProposal = { turn: ctx.state.meta.turn, accepted: ok }; if (!ok) return

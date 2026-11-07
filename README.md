@@ -1,6 +1,6 @@
 # Elental — runnable skeleton (spec: `*__spec.md`)
 
-Plain JS + ES modules, no bundler. `npm test` runs 76 tests with Node's built-in runner (Node >= 20).
+Plain JS + ES modules, no bundler. `npm test` runs 90 tests with Node's built-in runner (Node >= 20).
 
 ## Launch
 Hosting target is GitHub Pages: everything is static files; the simulation engine runs in the browser (main thread). `serve.py` is only a local convenience.
@@ -30,6 +30,7 @@ It has not been exercised in a real browser yet (only syntax-checked and served 
 | `scenarios/alpha/tuning.defaults.json` | 112 placeholder tuning keys (also embedded in `data/ruleset.json`) (all editable at the numbers pass) |
 | `src/modules/polity/{mobility,demotion,convergence,propaganda,transfer,cellstate,remaining}.js`, `src/modules/economics/teaching.js` | Estate Mobility, Demotion Duty, Convergence (declared + estate-forced, divergence on reform), propaganda (fast stack / slow Teaching baseline, counter-propaganda), Teaching (pool conversion, affinity, extinct pools), `reformRightsDuties` / `setMobilityGap` / `declareConvergence` actions — tested |
 | `src/modules/war/internal.js` | Internal armed conflict: rebel bloc as a war side, armedRevolt (scalar Retinue Right), rebel supply from held territory, concession / suppression (martial law) / secession (Formation) — tested |
+| `src/modules/diplomacy/` | Diplomacy core: Reputational Leverage, CBs + per-observer overreach, treaties/axes/ratification, war chain, recognition route, FacilitationGrants — tested; Espionage / foreign propaganda / detection not yet |
 | `tests/` | `fixtures.js` builds a 1-Country / 1-Region / 2-Nation test world |
 
 Not yet implemented (specified in the `__spec.md` files): Diplomacy (CB, treaties, Espionage), internal armed conflict, Printed-Goods propaganda channel, foreign propaganda, minting and rituals, warehouse spoilage, Observation stamps, worldgen stages, Editor diff/search/bulk edit.

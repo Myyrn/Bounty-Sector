@@ -14,7 +14,7 @@ export function warScore(ctx, side) {                                           
 export function peaceEvaluation(ctx, side, enemy, terms) {                                           // willingness to ACCEPT peace: weak/exhausted -> yes, strong + terms costly -> no; WarScore is only the modifier
   const own = sum(Object.values(W(ctx).armies).filter(a => a.owner === side).map(a => armyStrength(ctx, a))), foe = sum(Object.values(W(ctx).armies).filter(a => a.owner === enemy).map(a => armyStrength(ctx, a)))
   const myProvs = Object.values(ctx.state.world.provinces).filter(p => p.owner === side).length || 1, cede = (terms.cede ?? []).filter(c => c.from === side).length / myProvs, gain = (terms.cede ?? []).filter(c => c.to === side).length / myProvs
-  return stance(side, terms, ctx, { selfInterest: () => (0.5 - own / (own + foe + 1e-9)) + ctx.T('war.peace.exh') * countryExhaustion(ctx, side) - ctx.T('war.peace.cede') * cede + ctx.T('war.peace.cede') * gain,
+  return stance(side, terms, ctx, { selfInterest: () => (0.5 - own / (own + foe + 1e-9)) + ctx.T('war.peace.exh') * countryExhaustion(ctx, side) - ctx.T('war.peace.cede') * cede + ctx.T('war.peace.cede') * gain - ctx.T('war.peace.treaty') * (terms.treaties ?? []).filter(t => (t.kind === 'Dependency' ? t.subject : t.target) === side).length,
     modifier: () => 1 + ctx.T('war.peace.scoreWeight') * Math.tanh(warScore(ctx, side) / 50) }) }
 const handlers = {
   'war.declared': () => {},
@@ -23,6 +23,7 @@ const handlers = {
     if (w.internal) return resolveInternalPeace(ctx, w, terms)                                                       // rebel Peace Conference: Rights/Duties terms, secession = Formation
     const other = w.a === proposer ? w.b : w.a, ok = approves(peaceEvaluation(ctx, other, proposer, terms), ctx)      // the proposer accepts its own terms; the receiver judges them
     w.lastProposal = { turn: ctx.state.meta.turn, accepted: ok }; if (!ok) return
+    for (const t of terms.treaties ?? []) ctx.services.diplomacy?.installTreaty(t)                                 // treaty terms of the Peace Conference (e.g. Dependency, Sanction)
     for (const c of terms.cede ?? []) ctx.state.world.provinces[c.province].owner = c.to                        // Countries-level change; Regions re-derive at step 8
     for (const p of Object.keys(W(ctx).occupations)) { const o = W(ctx).occupations[p]; if ([w.a, w.b].includes(o.occupier)) delete W(ctx).occupations[p] }   // occupation removal on ratified peace
     w.active = false; w.ended = ctx.state.meta.turn } }

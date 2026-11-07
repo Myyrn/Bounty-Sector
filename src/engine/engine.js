@@ -40,10 +40,11 @@ export function runDue(ctx, step) {
 export function gate(ctx, a) {
   const t = ctx.registry.get(a.type), domain = t.gateDomain?.(ctx, a) ?? null
   if (!domain) return {blocked: false}
-  const holders = ctx.module('polity').gateHolders(ctx, a.actor, domain)
-  if (!holders.length) return {blocked: false}
+  const holders = ctx.module('polity').gateHolders(ctx, a.actor, domain), foreign = ctx.module('diplomacy')?.foreignVetoes?.(ctx, a, domain) ?? []      // DomainVeto grantees (Countries) also hold a Veto
+  if (!holders.length && !foreign.length) return {blocked: false}
   const verdicts = holders.map(c => ({cell: c, s: stance(c, a, ctx, ctx.module('polity').stanceFns(ctx, a.type))}))
   const refusers = verdicts.filter(v => !approves(v.s, ctx))
+  if (foreign.length) return {blocked: true, foreign, holders: [...refusers.map(v => v.cell), ...foreign], verdicts}
   return refusers.length ? {blocked: true, holders: refusers.map(v => v.cell), verdicts} : {blocked: false, verdicts}
 }
 export function validate(ctx, a) {
@@ -63,6 +64,7 @@ function step2(ctx, planned) {
     const t = ctx.registry.get(a.type)
     const v = validate({...ctx, state: ctx.start}, a); if (!v.ok) { ctx.report.reject(a, v.reasons ?? ['invalid']); continue }
     const g = gate(ctx, a)
+    if (g.foreign?.length) { ctx.report.refuse(a, g); continue }                                    // a foreign Veto cannot be forced through Control
     if (g.blocked && !a.forceThroughControl) { ctx.report.refuse(a, g); continue }
     if (g.blocked) { ctx.module('polity').entitlementLoss(ctx, g.holders, a); ctx.report.entitlementLosses.push({id: a.id, holders: g.holders}) }
     if (!ctx.claims.lockAll((t.costs?.(ctx, a) ?? []))) { ctx.report.reject(a, ['insufficient']); continue }

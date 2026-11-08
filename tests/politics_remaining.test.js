@@ -172,7 +172,7 @@ test('Teaching: Nation affinity biases the split; directed Teaching removes retr
 })
 test('demo scenario, 25 turns with Mobility + Demotion + propaganda ordered: invariants hold and runs are deterministic', async () => {
   const readJson = async p => JSON.parse(readFileSync(new URL('../' + p, import.meta.url)))
-  const play = async () => { const c = new EngineClient(); await c.init(await readPackage(readJson, 'scenarios/demo'), await readJson('data/ruleset.json'))
+  const play = async () => { const c = new EngineClient(); await c.init(await readPackage(readJson, 'scenarios/demo'), await readJson('data/ruleset.json')); c.ruleset.tuning['pop.growth'] = { value: 0, status: 'placeholder' }   // conservation check: no natural growth
     const V = { kind: 'government', country: 'vantiria' }, ests = [...new Set(Object.values(c.state.polity.cells).map(x => x.estate))]
     const pop0 = Object.values(c.state.polity.cells).reduce((a, x) => a + x.population, 0)
     await c.submit({ actor: V, type: 'reformRightsDuties', params: { entries: [{ kind: 'rights', id: 'EstateMobility', scope: { kind: 'estate', estate: 'peasants' }, value: 0.5 }, { kind: 'duties', id: 'Demotion', scope: { kind: 'estate', estate: 'nobility' }, value: 0.5 }] } })

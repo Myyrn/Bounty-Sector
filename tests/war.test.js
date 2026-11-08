@@ -31,7 +31,7 @@ test('fieldUnits: commits labour, consumes weapons, creates an army; invalid ord
   await c.submit({ actor: V, type: 'fieldUnits', params: { originCell: cellIn(c, 'kerinia', 'p:10,5').key, composition: { 'Shock Infantry': 1 } } }); assert.ok((await c.endTurn()).report.rejected.some(r => r.reasons[0].includes('belong')))
 })
 test('battle: the larger, better-supplied army wins; casualties come out of origin cells; war harm and score are logged; loser retreats or dies', async () => {
-  const c = await boot(); await war(c)
+  const c = await boot(); c.ruleset.tuning['pop.growth'] = { value: 0, status: 'placeholder' }; await war(c)       // isolate casualties from natural growth
   const a = await field(c, V, 'p:7,6', 0.9), b = await field(c, K, 'p:8,6', 0.1); const av = armiesOf(c, 'vantiria')[0], ak = armiesOf(c, 'kerinia')[0]
   const popBefore = c.state.polity.cells[a.cell.key].population
   await c.submit({ actor: V, type: 'orderMove', params: { armyId: av.id, to: ak.position } }); for (let i = 0; i < 12 && !c.state.war.score.some(e => e.cause === 'battle'); i++) await c.endTurn()

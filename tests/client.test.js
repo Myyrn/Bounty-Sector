@@ -22,12 +22,12 @@ test('real Action pipeline: setTaxLaw changes the law, placeRequisition fills Go
   const law = await c.query('law', { country: 'vantiria' }); assert.equal(law.duties.Taxation.find(e => e.scope.kind === 'empire').value.market, 0.2)
   await c.runTurns(3); const g = await c.query('government', { country: 'vantiria' }); assert.ok(g.inventory.Grain > 0)
 })
-test('20 turns: invariants hold (Wealth >= 0, Ledger >= 0, grievance/satisfaction in [0,1], population unchanged without growth)', async () => {
+test('20 turns: invariants hold (Wealth >= 0, Ledger >= 0, grievance/satisfaction in [0,1], population within the 1%-per-turn growth bound)', async () => {
   const c = await boot(); const pop0 = (await c.query('cells')).reduce((s, x) => s + x.population, 0)
   await c.runTurns(20)
   for (const x of await c.query('cells')) { assert.ok(x.wealth >= 0); for (const v of Object.values(x.grievance)) assert.ok(v >= 0 && v <= 1); for (const v of Object.values(x.satisfaction)) assert.ok(v >= 0 && v <= 1) }
   for (const cid of ['vantiria', 'kerinia']) assert.ok((await c.query('government', { country: cid })).ledger >= 0)
-  assert.equal((await c.query('cells')).reduce((s, x) => s + x.population, 0), pop0)
+  const pop1 = (await c.query('cells')).reduce((s, x) => s + x.population, 0); assert.ok(pop1 <= pop0 * 1.01 ** 20 + 20 && pop1 >= pop0 * 0.99 ** 20 - 20, `population ${pop0} -> ${pop1}`)
   assert.equal((await c.query('history')).length, 20)
 })
 test('determinism: two runs of the same scenario give identical state', async () => {

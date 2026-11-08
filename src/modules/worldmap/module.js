@@ -2,9 +2,11 @@
 import { parseCellKey } from '../../kernel/ids.js'
 import { neighbors, parseId } from './hex.js'
 import { deriveRegions, splitCell, mergeCells } from './regions.js'
+import { stepPopulation } from './population.js'
 const sum = a => a.reduce((s, x) => s + x, 0)
 /** step 8: ONE end-of-turn pass — re-derive Regions after ownership change; split/merge per-cell stocks by Nations' population share (World Map Rule 7). */
 export function step8(ctx) {
+  stepPopulation(ctx)                                        // natural growth/decrease first, so the Region pass splits the current stocks
   const w = ctx.state.world, prev = w.regionSnapshot, owners = Object.fromEntries(Object.entries(w.provinces).map(([id, p]) => [id, p.owner ?? null]))
   const changed = Object.entries(prev.assignment).some(([p, r]) => owners[p] !== prev.owners?.[r])
   if (!changed) return

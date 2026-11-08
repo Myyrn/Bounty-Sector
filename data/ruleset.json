@@ -2293,6 +2293,10 @@
   "treaty.cellConfShare": {
    "value": 0.5,
    "status": "placeholder"
+  },
+  "pop.growth": {
+   "value": 0.01,
+   "status": "authored"
   }
  }
 }

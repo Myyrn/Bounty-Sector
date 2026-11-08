@@ -128,6 +128,7 @@ function pricePass(ctx) {
     if (pre(hi, g) > pre(lo, g) * (1 + ctx.T('flow.friction'))) { const surplus = Math.max(0, S[lo][g] - Dm[lo][g]), q = Math.min(cap, surplus * ctx.T('flow.share'), zoneStock(ctx, zs, lo, g))
       if (q > 0) { zoneTake(ctx, zs, lo, g, q); zoneAdd(ctx, zs, hi, g, q); S[lo][g] -= q; S[hi][g] += q } } }
   ctx.scratch.price = (g, z) => base(g) * D.scarcity(ctx, S[z][g], Dm[z][g]) * lvl      // final scarcity from post-flow balances
+  ctx.state.economy.lastMarket = Object.fromEntries(Object.keys(zs).map(z => [z, Object.fromEntries(goods.map(g => [g, { stock: S[z][g], demand: Dm[z][g], price: ctx.scratch.price(g, z) }]))]))   // @cache: the Economy workspace's Goods & Prices (rederivable)
 }
 function cascade(ctx) {
   const price = ctx.scratch.price, zs = ctx.scratch.zs, keys = Object.keys(cells(ctx)).sort()

@@ -27,3 +27,14 @@ Edited: engine/engine.js (gate(): DomainVeto grantees are foreign Veto holders; 
   war/module.js (treaty terms in the Peace Conference), war/internal.js (recognised blocs hold out; Formation / end hand-offs to Diplomacy), economics/step.js (tradeFactor on cross-border edges),
   modules/index.js, buildState.js (state.diplomacy from relations.json), engineClient.js (AI diplomacy orders, query 'diplomacy'), tuning.defaults.json (+43 placeholder keys), data/ruleset.json (regenerated)
 State additions: state.diplomacy {treaties, cbs, leverage, grants, proposals, recognition, claims}; war records gain goals / chained / chainedFrom / overreach
+
+# Natural growth + UI pass (fourth pass)
+Natural growth: src/modules/worldmap/population.js (step 8, before the Region pass). delta = cell population x pop.growth (0.01, authored) x f, f = (subsistence satisfaction - 1) while subsistence is short, else comfort satisfaction.
+  Mirrored into province stock + Nation presence (by presence share, density-capped when growing); free labour scales, committed labour does not. tests/population.test.js (7). Three older tests now pin pop.growth=0 where they assert conservation.
+UI pass: index.html (new game shell; the old shell is debug.html), src/ui/{app,dom,scope,forms,style.css}, src/ui/views/{map,polity,apparatus,economy,world,dock}.js,
+  src/client/readouts.js (the UI's read side: estates, questions, laws matrix, govCard, economy, world, pair, mirror, treaties, military, commitments, province/cell cards, lens, scopeTree, rules, orders, catalog, preview),
+  engineClient.js (cached viewCtx, removeOrder, readouts hook, plain-JSON query results), economics/step.js (state.economy.lastMarket @cache for Goods & Prices), tests/ui.test.js (6), tools/ui_smoke.py (headless Chromium end-to-end, 19 checks; `npm run ui:smoke`)
+Shell: TopBar (country, turn, End Turn / Run 5, Draft menu, Debug toggle), global ScopePicker (Nation / Estate / Region -> the shared scope syntax; SliceOrder), workspace tabs, DockedDetailPanel (province / cell / country / army cards),
+  Orders tray (preview verdict per order, remove, clear), Commitments ledger, Event Draft sheet (fields -> Preview = validation + gating verdict -> Queue), turn report.
+Workspaces: Map (12 lenses, Map/Table/Detail, scope treemap with hottest-child marker) · Polity (Questions, Estates matrix, Laws matrix with scope columns, Government + scoped tax drafts) · Apparatus (CCO, Allocation Dials, propaganda) ·
+  Economy (Pools, Goods & Prices, Trade Zones, Flow, Ledger & Credit, Money) · World (Relations ego graph + pair sheet, Treaties, Mirror, Military incl. blocs and Peace Conference).
